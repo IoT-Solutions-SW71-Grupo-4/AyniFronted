@@ -61,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "AyniFrontend:build:production"
+              "buildTarget": "AyniFrontend:build:production"
             },
             "development": {
-              "browserTarget": "AyniFrontend:build:development"
+              "buildTarget": "AyniFrontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -72,7 +72,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "AyniFrontend:build"
+            "buildTarget": "AyniFrontend:build"
           }
         },
         "test": {
