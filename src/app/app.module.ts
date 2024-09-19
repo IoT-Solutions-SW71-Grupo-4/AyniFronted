@@ -19,7 +19,6 @@ import { CicularGraphComponent } from './report/components/cicular-graph/cicular
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 
-import { IgxItemLegendModule, IgxPieChartModule } from 'igniteui-angular-charts';
 
 @NgModule({
   declarations: [
@@ -42,8 +41,6 @@ import { IgxItemLegendModule, IgxPieChartModule } from 'igniteui-angular-charts'
         MatCardModule,
         CommonModule,
         FormsModule,
-        IgxItemLegendModule,
-        IgxPieChartModule
     ],
   providers: [],
   bootstrap: [AppComponent]
