@@ -1,0 +1,32 @@
+<div class="content_card">
+  <mat-card *ngFor="let crop of crops" class="card-crop">
+    <div class="imagen_card">
+      <img [src]="crop.image"
+           [alt]='crop.name'
+      >
+    </div>
+
+    <div class="icons_content">
+      <div class="icons_item">
+        <mat-icon>tune</mat-icon>
+        {{crop.price}}
+      </div>
+      <div class="icons_item">
+        <mat-icon>settings_input_antenna</mat-icon>
+        {{crop.quantity}}
+      </div>
+
+    </div>
+    <mat-card-actions class="align-center">
+      <div class="icon_asesor">
+        <mat-icon >nature_people</mat-icon>
+      </div>
+      <p>
+        @{{crop.name}}
+      </p>
+
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+
