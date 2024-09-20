@@ -53,8 +53,13 @@ mat-nav-list{
   padding: 0 35px;
 }
 
-mat-nav-list :hover{
-  background-image: linear-gradient(45deg, #04A033, #b5e5c9);
+mat-nav-list a:hover{
+  background-image: linear-gradient(90grad, #04A033,#04A033, #b5e5c9);
+  color: white;
+}
+
+.link.active{
+  background-image: linear-gradient(90grad, #04A033,#04A033, #b5e5c9);
   color: white;
 }
 
@@ -69,11 +74,8 @@ mat-nav-list :hover{
   padding-right: 80px;
 }
 
-#back:hover{
-  color: black;
-  background-image: linear-gradient(45deg, #ea3737, #ec8585);
-}
-mat-nav-list #back :hover{
+
+mat-nav-list #back:hover{
   color: black;
   background-image: linear-gradient(45deg, #ea3737, #ec8585);
 }

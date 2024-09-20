@@ -16,9 +16,7 @@ import { IrrigationComponent } from './shared/pages/irrigation/irrigation.compon
 import { CardCropComponent } from './crop/components/card-crop/card-crop.component';
 import {MatCardModule} from "@angular/material/card";
 import { CicularGraphComponent } from './report/components/cicular-graph/cicular-graph.component';
-import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -32,6 +30,7 @@ import {FormsModule} from "@angular/forms";
     CicularGraphComponent
   ],
     imports: [
+        NgxChartsModule,
         BrowserModule,
         AppRoutingModule,
         MatSidenavModule,
@@ -39,8 +38,6 @@ import {FormsModule} from "@angular/forms";
         MatListModule,
         MatIconModule,
         MatCardModule,
-        CommonModule,
-        FormsModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

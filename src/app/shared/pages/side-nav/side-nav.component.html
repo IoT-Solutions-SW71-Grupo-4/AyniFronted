@@ -1,11 +1,19 @@
 <div class="example-container"*ngIf="shouldRun">
   <mat-sidenav-container class="content">
     <mat-sidenav #snav [mode]="'side'" [opened]="true">
-      <mat-nav-list>
-        <a (click)="navigateDashboard()" class="link"><mat-icon>home</mat-icon>Dashboard</a>
-        <a (click)="navigateDevices()" class="link"><mat-icon>people</mat-icon>Device</a>
-        <a (click)="navigateIrrigation()" class="link"><mat-icon>settings</mat-icon>Irrigation</a>
-        <a (click)="snav.close()" class="link" id="back"><mat-icon>meeting_room</mat-icon>Login</a>
+      <mat-nav-list >
+        <a
+          *ngFor="let item of menuItems"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          class="link"
+          (click)="setActiveItem(item);Navigate(item.name)"
+          [class.active]="activeItem === item"
+        >
+          <mat-icon>{{item.icon}}</mat-icon>{{item.name}}
+        </a>
+
+        <a (click)="Navigate('exit')" class="link" id="back"><mat-icon>meeting_room</mat-icon>Login</a>
       </mat-nav-list>
     </mat-sidenav>
 

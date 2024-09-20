@@ -8,13 +8,29 @@ import {Router} from "@angular/router";
 })
 export class SideNavComponent implements OnInit {
   shouldRun = true;
-
+  menuItems = [
+    { name: 'Dashboard', icon: 'home', route: 'dashboard' },
+    { name: 'Devices', icon: 'people', route: 'devices' },
+    { name: 'Irrigation', icon: 'settings', route: 'irrigation' },
+  ];
+  activeItem = this.menuItems[0];
   constructor(private router:Router) {
   }
 
   ngOnInit(): void {
   }
-
+  setActiveItem(item: any) {
+    this.activeItem = item;
+  }
+  Navigate(name: string) {
+    if (name === 'Dashboard') {
+      this.navigateDashboard();
+    } else if (name === 'Devices') {
+      this.navigateDevices();
+    } else if (name === 'Irrigation') {
+      this.navigateIrrigation();
+    }
+  }
   navigateDashboard() {
     this.router.navigate(['dashboard']);
   }
@@ -26,4 +42,5 @@ export class SideNavComponent implements OnInit {
   navigateIrrigation() {
     this.router.navigate(['irrigation']);
   }
+
 }
