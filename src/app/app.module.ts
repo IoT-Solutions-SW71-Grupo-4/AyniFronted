@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {MatSidenavModule} from "@angular/material/sidenav";
-
-
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SideNavComponent } from './shared/pages/side-nav/side-nav.component';
@@ -17,6 +17,11 @@ import { CardCropComponent } from './crop/components/card-crop/card-crop.compone
 import {MatCardModule} from "@angular/material/card";
 import { CicularGraphComponent } from './report/components/cicular-graph/cicular-graph.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { EditDeviceComponent } from './devices/components/edit-device/edit-device.component'; // Importa el componente
+import { AddSensorComponent } from './devices/components/add-sensor/add-sensor.component';
+import { IrrigationService } from './irrigation/services/irrigation.service';
+import { SoilAnalysisComponent } from './shared/pages/soil-analysis/soil-analysis.component';
 
 @NgModule({
   declarations: [
@@ -27,19 +32,26 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     DevicesComponent,
     IrrigationComponent,
     CardCropComponent,
-    CicularGraphComponent
+    CicularGraphComponent,
+    EditDeviceComponent,
+    AddSensorComponent,
+    SoilAnalysisComponent
   ],
-    imports: [
-        NgxChartsModule,
-        BrowserModule,
-        AppRoutingModule,
-        MatSidenavModule,
-        BrowserAnimationsModule,
-        MatListModule,
-        MatIconModule,
-        MatCardModule,
+    imports: [  NgxChartsModule,
+      BrowserModule,
+      AppRoutingModule,
+      MatSidenavModule,
+      BrowserAnimationsModule,
+      HttpClientModule,
+      MatListModule,
+      MatIconModule,
+      MatCardModule,
+      FormsModule,
     ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    provideAnimationsAsync(),
+    IrrigationService
+  ],
+  bootstrap: [AppComponent] 
 })
 export class AppModule { }

@@ -12,6 +12,8 @@ export class SideNavComponent implements OnInit {
     { name: 'Dashboard', icon: 'home', route: 'dashboard' },
     { name: 'Devices', icon: 'people', route: 'devices' },
     { name: 'Irrigation', icon: 'settings', route: 'irrigation' },
+    { name: 'Soil Analysis', route: '/soil-analysis', icon: 'nature' },
+    { name: 'Report', route: '/report', icon: 'assessment' }, 
   ];
   activeItem = this.menuItems[0];
   constructor(private router:Router) {

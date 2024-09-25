@@ -1,0 +1,46 @@
+<div class="soil-analysis-container">
+    <h1 class="main-title">Soil Analysis</h1>
+
+    <div class="crop-select-container">
+        <label for="cropSelect">Select a Crop:</label>
+        <select id="cropSelect" #cropSelect (change)="onCropSelect(cropSelect.value)" class="crop-select">
+            <option *ngFor="let crop of crops" [value]="crop.id">
+                {{ crop.name }}
+            </option>
+        </select>
+    </div>
+
+    <div *ngIf="selectedSoilAnalysis" class="soil-analysis-details">
+        <div class="cards-container">
+            <div class="card">
+                <i class="fas fa-flask icon"></i>
+                <h3>pH Level</h3>
+                <p>{{ selectedSoilAnalysis.pHLevel }}</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-tint icon"></i>
+                <h3>Moisture</h3>
+                <p>{{ selectedSoilAnalysis.moisture }} %</p>
+            </div>
+        </div>
+        <p class="analysis-date"><strong>Analysis Date:</strong> {{ selectedSoilAnalysis.analysisDate }}</p>
+
+        <div *ngIf="pieChartData.length > 0" class="chart-container">
+    
+            <div class="pie-chart-wrapper">
+                <ngx-charts-pie-chart
+                    [results]="pieChartData"
+                    [labels]="true"
+                    [doughnut]="false"
+                    [gradient]="false"
+                    [view]="[400, 300]" 
+                    [labelFormatting]=""
+                />
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!selectedSoilAnalysis">
+        <p class="no-selection">Please select a crop to see the soil analysis.</p>
+    </div>
+</div>
