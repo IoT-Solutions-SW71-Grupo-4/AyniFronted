@@ -22,6 +22,8 @@ import { EditDeviceComponent } from './devices/components/edit-device/edit-devic
 import { AddSensorComponent } from './devices/components/add-sensor/add-sensor.component';
 import { IrrigationService } from './irrigation/services/irrigation.service';
 import { SoilAnalysisComponent } from './shared/pages/soil-analysis/soil-analysis.component';
+import { TopBarComponent } from './shared/topbar-nav/topbar-nav.component';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { SoilAnalysisComponent } from './shared/pages/soil-analysis/soil-analysi
     CicularGraphComponent,
     EditDeviceComponent,
     AddSensorComponent,
-    SoilAnalysisComponent
+    SoilAnalysisComponent,
+    TopBarComponent
   ],
     imports: [  NgxChartsModule,
       BrowserModule,
@@ -47,6 +50,7 @@ import { SoilAnalysisComponent } from './shared/pages/soil-analysis/soil-analysi
       MatIconModule,
       MatCardModule,
       FormsModule,
+      
     ],
   providers: [
     provideAnimationsAsync(),

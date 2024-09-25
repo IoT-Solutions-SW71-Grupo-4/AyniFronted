@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'AyniFrontend';
+  user = {
+    name: 'Juan Pérez',
+    photo: 'assets/images/user.jpg' 
+  };
+
+  currentSection = 'Dashboard';
 }
+
