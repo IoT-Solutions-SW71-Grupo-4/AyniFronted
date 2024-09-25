@@ -23,6 +23,9 @@ import { AddSensorComponent } from './devices/components/add-sensor/add-sensor.c
 import { IrrigationService } from './irrigation/services/irrigation.service';
 import { SoilAnalysisComponent } from './shared/pages/soil-analysis/soil-analysis.component';
 import { TopBarComponent } from './shared/topbar-nav/topbar-nav.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './shared/pages/auth/login/login.component';
+import { RegisterComponent } from './shared/pages/auth/register/register.component';
 
 
 @NgModule({
@@ -38,7 +41,8 @@ import { TopBarComponent } from './shared/topbar-nav/topbar-nav.component';
     EditDeviceComponent,
     AddSensorComponent,
     SoilAnalysisComponent,
-    TopBarComponent
+    TopBarComponent,
+    LoginComponent
   ],
     imports: [  NgxChartsModule,
       BrowserModule,
@@ -50,6 +54,7 @@ import { TopBarComponent } from './shared/topbar-nav/topbar-nav.component';
       MatIconModule,
       MatCardModule,
       FormsModule,
+      ReactiveFormsModule
       
     ],
   providers: [
