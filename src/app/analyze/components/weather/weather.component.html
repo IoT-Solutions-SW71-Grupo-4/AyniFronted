@@ -1,0 +1,16 @@
+<div class="content_card">
+  <div class="card" *ngFor="let data of datas">
+    <div class="card-header">
+      <div class="icon">
+        <img [src]="data.image" alt="water icon">
+      </div>
+      <div class="percentage">
+        {{data.number}}
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="title">{{data.title}}</div>
+      <div class="status">{{data.status}}</div>
+    </div>
+  </div>
+</div>

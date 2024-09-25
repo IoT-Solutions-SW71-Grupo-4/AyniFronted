@@ -5,7 +5,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SideNavComponent } from './shared/pages/side-nav/side-nav.component';
+import { SideNavComponent } from './shared/components/side-nav/side-nav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatListModule} from "@angular/material/list";
 import {MatIconModule} from "@angular/material/icon";
@@ -17,6 +17,11 @@ import { CardCropComponent } from './crop/components/card-crop/card-crop.compone
 import {MatCardModule} from "@angular/material/card";
 import { CicularGraphComponent } from './report/components/cicular-graph/cicular-graph.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {HttpClientModule} from "@angular/common/http";
+import {HeaderComponent} from "./shared/components/header/header.component";
+import {WeatherComponent} from "./analyze/components/weather/weather.component";
+import {AnalyzeSummaryComponent} from "./analyze/page/analyze-summary/analyze-summary.component";
+import {MatLabel} from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
@@ -27,18 +32,23 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     DevicesComponent,
     IrrigationComponent,
     CardCropComponent,
-    CicularGraphComponent
+    CicularGraphComponent,
+    WeatherComponent,
+    AnalyzeSummaryComponent,
+    HeaderComponent
   ],
-    imports: [
-        NgxChartsModule,
-        BrowserModule,
-        AppRoutingModule,
-        MatSidenavModule,
-        BrowserAnimationsModule,
-        MatListModule,
-        MatIconModule,
-        MatCardModule,
-    ],
+  imports: [
+    NgxChartsModule,
+    BrowserModule,
+    AppRoutingModule,
+    MatSidenavModule,
+    BrowserAnimationsModule,
+    MatListModule,
+    MatIconModule,
+    MatCardModule,
+    HttpClientModule,
+    MatLabel
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
