@@ -9,74 +9,49 @@ import {LegendPosition} from "@swimlane/ngx-charts";
 export class CicularGraphComponent {
   single2=[
     {
-      "name": "Germany",
-      "value": 40632,
+      "name": "Connected",
+      "value": 4,
       "extra": {
         "code": "de"
       }
     },
     {
-      "name": "United States",
-      "value": 50000,
+      "name": "Disconnected",
+      "value": 2,
       "extra": {
         "code": "us"
       }
     },
     {
-      "name": "France",
-      "value": 36745,
+      "name": "Whit Fault",
+      "value": 1,
       "extra": {
         "code": "fr"
-      }
-    },
-    {
-      "name": "United Kingdom",
-      "value": 36240,
-      "extra": {
-        "code": "uk"
-      }
-    },
-    {
-      "name": "Spain",
-      "value": 33000,
-      "extra": {
-        "code": "es"
-      }
-    },
-    {
-      "name": "Italy",
-      "value": 35800,
-      "extra": {
-        "code": "it"
       }
     }
   ];
   single = [
     {
-      "name": "Germany",
-      "value": 8940000
+      "name": "Phosphorus",
+      "value": 50
     },
     {
-      "name": "USA",
-      "value": 5000000
+      "name": "Nitrogen",
+      "value": 13
     },
     {
-      "name": "France",
-      "value": 7200000
+      "name": "Potassium",
+      "value": 10
     },
     {
-      "name": "UK",
-      "value": 6200000
+      "name": "Other",
+      "value": 27
     }
   ];
   view: [number,number] = [700, 300];
 
-  // options
-  gradient: boolean = true;
-  showLegend: boolean = true;
-  showLabels: boolean = true;
   isDoughnut: boolean = false;
-  legendPosition: LegendPosition = LegendPosition.Right;
+  legendPosition: LegendPosition = LegendPosition.Below;
   onSelect(data:any): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
   }

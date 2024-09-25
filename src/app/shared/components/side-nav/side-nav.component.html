@@ -1,6 +1,9 @@
-<div class="example-container"*ngIf="shouldRun">
+<div class="example-container">
   <mat-sidenav-container class="content">
     <mat-sidenav #snav [mode]="'side'" [opened]="true">
+      <div class="content_logo_nav">
+        <img src="../../../../assets/images/img.png" alt="logo" class="logo">
+      </div>
       <mat-nav-list >
         <a
           *ngFor="let item of menuItems"
@@ -18,6 +21,7 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
+      <app-header></app-header>
       <p><router-outlet></router-outlet></p>
     </mat-sidenav-content>
   </mat-sidenav-container>
