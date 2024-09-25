@@ -2,7 +2,7 @@
  
   <mat-sidenav-container class="content">
     
-    <mat-sidenav #snav [mode]="'side'" [opened]="true">
+    <mat-sidenav class="with" #snav [mode]="'side'" [opened]="true">
       <mat-nav-list >
         <a
           *ngFor="let item of menuItems"
@@ -15,11 +15,11 @@
           <mat-icon>{{item.icon}}</mat-icon>{{item.name}}
         </a>
 
-        <a (click)="Navigate('exit')" class="link" id="back"><mat-icon>meeting_room</mat-icon>Login</a>
+        <a (click)="Navigate('exit')" class="link login" id="back"><mat-icon>meeting_room</mat-icon>Logout</a>
       </mat-nav-list>
     </mat-sidenav>
 
-    <mat-sidenav-content>
+    <mat-sidenav-content style="padding: 20px;" >
       <app-top-bar></app-top-bar>
       <p><router-outlet></router-outlet></p>
     </mat-sidenav-content>

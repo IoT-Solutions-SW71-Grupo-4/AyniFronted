@@ -1,43 +1,68 @@
 .top-bar {
     display: flex;
+    border-radius: 10px;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #4CAF50; /* Un color verde bonito */
-    color: white;
-    position: fixed;
-    top: 0;
-    left: 250px; /* Deja espacio para la barra lateral */
-    right: 0;
-    height: 60px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .user-info {
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.user-info {
     display: flex;
     align-items: center;
-  }
-  
-  .user-photo {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .user-name {
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  .notifications {
-    display: flex;
-    align-items: center;
-  }
-  
-  .notification-icon {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-  }
-  
+}
+
+.user-photo {
+    width: 40px; /* Ancho de la foto del usuario */
+    height: 40px; /* Alto de la foto del usuario */
+    border-radius: 50%; /* Redondear la foto */
+    margin-right: 10px; /* Espaciado entre la foto y el nombre */
+    border: 2px solid #81c784; /* Borde en tono verde suave */
+}
+
+.user-name {
+    color: #0f3460; /* Color del nombre del usuario */
+    font-weight: bold; /* Negrita para el nombre */
+}
+
+.notifications {
+    position: relative; /* Para posicionar el ícono de notificaciones */
+}
+
+.notification-icon {
+    width: 30px; /* Ancho del ícono de notificaciones */
+    height: 30px; /* Alto del ícono de notificaciones */
+    cursor: pointer; /* Cambiar el cursor al pasar por encima */
+    transition: transform 0.3s; /* Efecto de transición suave */
+}
+
+.notification-icon:hover {
+    transform: scale(1.1); /* Efecto de aumento al pasar el mouse */
+}
+
+.notification-icon::after {
+    content: ''; /* Crear un indicador de nuevas notificaciones */
+    position: absolute;
+    top: -5px; /* Ajustar la posición del indicador */
+    right: -5px; /* Ajustar la posición del indicador */
+    width: 12px; /* Tamaño del indicador */
+    height: 12px; /* Tamaño del indicador */
+    border-radius: 50%; /* Redondear el indicador */
+    background-color: #e94560; /* Color rojo para nuevas notificaciones */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Sombra para el indicador */
+}
+
+.notification-icon {
+    width: 30px; /* Ajusta según el tamaño que desees */
+    height: 30px; /* Ajusta según el tamaño que desees */
+    cursor: pointer; /* Cambiar el cursor al pasar por encima */
+    transition: transform 0.3s; /* Efecto de transición suave */
+}
+
+.notification-icon:hover {
+    transform: scale(1.1); /* Efecto de aumento al pasar el mouse */
+    color: #e94560; /* Color del ícono al pasar el mouse (opcional) */
+}
+

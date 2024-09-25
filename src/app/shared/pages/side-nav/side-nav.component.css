@@ -1,40 +1,68 @@
-.mat-sidenav-container {
+.example-container {
   height: 100vh;
-  border: 2px solid red;
-  background-color: #F0F4F8; /* Fondo claro */
+  display: flex;
+  background-color: #eafaf1; /* Fondo muy claro en un tono verde suave */
 }
 
+.mat-sidenav-container {
+  flex: 1;
+}
+
+
 .mat-sidenav {
-  width: 250px;
-  background-color: #2E7D32; /* Un verde oscuro para contraste */
-  color: white;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  width: 250px; /* Ancho del sidenav */
+  background-color: #81c784; /* Fondo en un tono verde claro */
+  color: #fff; /* Color del texto */
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+  display: flex;
+  flex-direction: column; /* Organizar los elementos en columna */
 }
 
 .mat-nav-list {
-  padding-top: 20px;
+  list-style: none;
+  padding: 0;
+  
+  flex-grow: 1; /* Permitir que la lista ocupe el espacio disponible */
 }
 
-a.link {
+.link {
   display: flex;
   align-items: center;
-  padding: 15px;
-  font-size: 16px;
-  color: white;
-  text-decoration: none;
-  transition: background 0.3s;
+  padding: 10px;
+  margin: 5px 0;
+  color: #fff; /* Color de texto de los enlaces */
+  text-decoration: none; /* Sin subrayado */
+  border-radius: 4px; /* Bordes redondeados */
+  transition: background 0.3s; /* Efecto de transición */
 }
 
-a.link:hover, a.link.active {
-  background-color: #66BB6A; /* Verde más claro al hacer hover */
+.link.login{
+  margin-top: 300px;
+}
+
+.link:hover {
+  background-color: #a5d6a7; /* Color de fondo al pasar el mouse */
+}
+
+.link.active {
+  background-color: #388e3c; /* Color de fondo activo */
 }
 
 .mat-icon {
-  margin-right: 10px;
+  margin-right: 10px; /* Espaciado entre el ícono y el texto */
 }
 
 #back {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
+  margin-top: auto; /* Mover el enlace de Login hacia abajo */
+  background-color: #388e3c; /* Color de fondo para el enlace de Login */
+  border-radius: 4px;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+  transition: background 0.3s; /* Efecto de transición */
+}
+
+#back:hover {
+  background-color: #a5d6a7; /* Color de fondo al pasar el mouse sobre Login */
 }
