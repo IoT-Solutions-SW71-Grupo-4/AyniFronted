@@ -1,7 +1,6 @@
 .nose{
   display:flex;
   flex-wrap:wrap;
-    border:2px solid red;
 }
 
 ngx-charts-advanced-pie-chart .legend-items{
