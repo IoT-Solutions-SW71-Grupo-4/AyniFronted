@@ -1,0 +1,29 @@
+<div class="example-container" *ngIf="shouldRun">
+  <mat-sidenav-container class="content">
+    <mat-sidenav #snav [mode]="'side'" [opened]="true">
+      <div class="content_logo_nav">
+        <img src="../../../../assets/images/img.png" alt="logo" class="logo">
+      </div>
+      <mat-nav-list>
+        <a
+          *ngFor="let item of menuItems"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          class="link"
+          (click)="setActiveItem(item); Navigate(item.name)"
+          [class.active]="activeItem === item"
+        >
+          <mat-icon>{{item.icon}}</mat-icon>{{item.name}}
+        </a>
+        <a (click)="Navigate('exit')" class="link login" id="back">
+          <mat-icon>meeting_room</mat-icon>Logout
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    
+    <mat-sidenav-content style="padding: 20px;">
+      <app-header></app-header>
+      <p><router-outlet></router-outlet></p>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -8,21 +8,34 @@
   flex: 1;
 }
 
-
 .mat-sidenav {
   width: 250px; /* Ancho del sidenav */
   background-color: #81c784; /* Fondo en un tono verde claro */
   color: #fff; /* Color del texto */
   padding: 20px;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+}
+
+.content_logo_nav {
   display: flex;
-  flex-direction: column; /* Organizar los elementos en columna */
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.content_logo_nav img {
+  width: 100px;
+  height: 100px;
+}
+
+.content {
+  flex: 1 1 auto;
+  background-color: #6f998d; /* Color de fondo para el contenido */
 }
 
 .mat-nav-list {
   list-style: none;
   padding: 0;
-  
   flex-grow: 1; /* Permitir que la lista ocupe el espacio disponible */
 }
 
@@ -37,8 +50,8 @@
   transition: background 0.3s; /* Efecto de transición */
 }
 
-.link.login{
-  margin-top: 300px;
+.link.login {
+  margin-top: 300px; /* Ajusta el margen según sea necesario */
 }
 
 .link:hover {

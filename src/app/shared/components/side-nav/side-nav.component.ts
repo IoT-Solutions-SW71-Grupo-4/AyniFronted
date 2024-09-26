@@ -21,6 +21,7 @@ export class SideNavComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
   setActiveItem(item: any) {
     this.activeItem = item;
   }
