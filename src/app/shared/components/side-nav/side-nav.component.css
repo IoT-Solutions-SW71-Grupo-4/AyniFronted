@@ -1,7 +1,7 @@
 .example-container {
   height: 100vh;
   display: flex;
-  background-color: #eafaf1; /* Fondo muy claro en un tono verde suave */
+  background-color: #f16a08; /* Fondo muy claro en un tono verde suave */
 }
 
 .mat-sidenav-container {
@@ -30,7 +30,7 @@
 
 .content {
   flex: 1 1 auto;
-  background-color: #6f998d; /* Color de fondo para el contenido */
+  background-color: #fff; /* Color de fondo para el contenido */
 }
 
 .mat-nav-list {

@@ -1,44 +1,122 @@
-.content{
+/* General styles */
+.content {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
-  margin: 0 30px;
+  margin: 20px; /* Espaciado alrededor */
+  padding: 15px; /* Espaciado interno */
+  border-radius: 8px; /* Esquinas redondeadas */
 }
 
-.subtitle{
-  font-size: 25px;
-  color: #000000;
+.subtitle {
+  font-size: 24px; /* Tamaño de fuente ajustado */
+  color: #333333; /* Color de texto oscuro */
+  margin-bottom: 10px; /* Espacio debajo del título */
+  font-weight: 500; /* Negrita ligera */
 }
-.content-crops{
+
+.content-crops {
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
-
-.content-add{
-  width: 230px;
-  height: 280px;
-  margin: 0 20px;
+.content-add {
+  width: 200px;
+  height: 200px; /* Tamaño ajustado */
+  margin: 10px; /* Espacio alrededor */
   display: flex;
-  font-size: 20px;
-  cursor: pointer;
+  flex-direction: column; /* Colocar icono y texto verticalmente */
   justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 4px 7px rgba(0,0,0,0.1);
-  border-radius: 15px;
+  background-color: #f0f0f0; /* Color de fondo sutil */
+  border-radius: 8px; /* Esquinas redondeadas */
+  transition: background-color 0.2s; /* Animación de color de fondo */
 }
-.add-icon{
+
+.content-add:hover {
+  background-color: #e0e0e0; /* Color de fondo al pasar el ratón */
+}
+
+.add-icon {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.add-icon mat-icon{
-  width: 160px;
-  height: 160px;
-  font-size: 160px;
-  color: #000000;
-  cursor: pointer;
+
+.add-icon mat-icon {
+  width: 80px; /* Tamaño reducido */
+  height: 80px;
+  font-size: 80px; /* Tamaño reducido */
+  color: #007bff; /* Color azul suave */
+}
+
+/* Responsive Design */
+
+/* Small devices (phones, 600px and down) */
+@media (max-width: 600px) {
+  .content {
+    margin: 10px;
+  }
+
+  .subtitle {
+    font-size: 22px; /* Tamaño de fuente menor */
+  }
+
+  .content-add {
+    width: 180px; /* Ajustar tamaño */
+    height: 180px; /* Ajustar tamaño */
+  }
+
+  .add-icon mat-icon {
+    width: 60px; /* Tamaño reducido */
+    height: 60px;
+    font-size: 60px; /* Tamaño reducido */
+  }
+}
+
+/* Medium devices (tablets, 600px to 900px) */
+@media (min-width: 601px) and (max-width: 900px) {
+  .content {
+    margin: 20px;
+  }
+
+  .subtitle {
+    font-size: 24px; /* Tamaño de fuente ajustado */
+  }
+
+  .content-add {
+    width: 200px;
+    height: 200px; /* Tamaño estándar */
+  }
+
+  .add-icon mat-icon {
+    width: 70px; /* Tamaño reducido */
+    height: 70px;
+    font-size: 70px; /* Tamaño reducido */
+  }
+}
+
+/* Large devices (desktops, 900px and up) */
+@media (min-width: 901px) {
+  .content {
+    margin: 30px;
+  }
+
+  .subtitle {
+    font-size: 24px; /* Tamaño de fuente estándar */
+  }
+
+  .content-add {
+    width: 200px; /* Tamaño estándar */
+    height: 200px; /* Tamaño estándar */
+  }
+
+  .add-icon mat-icon {
+    width: 80px; /* Tamaño estándar */
+    height: 80px;
+    font-size: 80px; /* Tamaño estándar */
+  }
 }

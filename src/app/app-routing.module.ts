@@ -11,7 +11,7 @@ import { LoginComponent } from './shared/pages/auth/login/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, 
-  { path: 'login', component: LoginComponent }, // Ruta de login sin layout
+  { path: 'dashboard', component: DashboardComponent }, // Ruta de login sin layout
   { 
     path: '', 
     

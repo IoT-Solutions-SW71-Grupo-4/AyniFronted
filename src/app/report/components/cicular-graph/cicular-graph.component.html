@@ -1,12 +1,17 @@
+
+
+<div class="nose">
 <ngx-charts-pie-grid
   [view]="view"
+  [view]="[500, 300]" 
   scheme="forest"
   [results]="single"
   (select)="onSelect2($event)">
 </ngx-charts-pie-grid>
 
 <ngx-charts-pie-chart
-  [view]="view"
+[view]="view"
+  [view]="[400, 300]" 
   scheme="cool"
   [results]="single2"
   [gradient]="true"
@@ -16,6 +21,6 @@
   [doughnut]="isDoughnut"
   (select)="onSelect($event)"
   (activate)="onActivate($event)"
-  (deactivate)="onDeactivate($event)"
->
+  (deactivate)="onDeactivate($event)">
 </ngx-charts-pie-chart>
+</div>

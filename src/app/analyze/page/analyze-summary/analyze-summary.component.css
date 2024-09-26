@@ -1,18 +1,75 @@
-.content{
+/* General styles */
+.content {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start; /* Cambiado a flex-start para mayor precisión */
   justify-content: center;
   margin: 0 30px;
 }
-.subtitle{
+
+.subtitle {
   font-size: 25px;
-  color: #000000;
+  color: #333; /* Un gris oscuro para mejor contraste */
+  margin-bottom: 20px; /* Espacio debajo del subtítulo */
+  font-weight: 600; /* Negrita para mayor énfasis */
+  text-align: left; /* Alinear texto a la izquierda */
+  border-bottom: 2px solid #4CAF50; /* Línea inferior decorativa */
+  padding-bottom: 10px; /* Espaciado entre el texto y la línea */
+  width: 100%; /* Asegurarse de que ocupe el ancho completo */
 }
-.content-Analyze{
+
+.content-analyze {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: start;
   align-items: center;
+  gap: 20px; /* Espacio entre los elementos */
+}
+
+/* Responsive Design */
+
+/* Small devices (phones, 600px and down) */
+@media (max-width: 600px) {
+  .content {
+    margin: 0 10px;
+  }
+
+  .subtitle {
+    font-size: 22px;
+  }
+
+  .content-analyze {
+    justify-content: center; /* Centrar en pantallas pequeñas */
+  }
+}
+
+/* Medium devices (tablets, 600px to 900px) */
+@media (min-width: 601px) and (max-width: 900px) {
+  .content {
+    margin: 0 20px;
+  }
+
+  .subtitle {
+    font-size: 24px;
+  }
+
+  .content-analyze {
+    justify-content: flex-start; /* Volver a la alineación inicial */
+  }
+}
+
+/* Large devices (desktops, 900px and up) */
+@media (min-width: 901px) {
+  .content {
+    margin: 0 30px;
+  }
+
+  .subtitle {
+    font-size: 25px;
+  }
+
+  .content-analyze {
+    justify-content: flex-start; /* Mantener alineación en pantallas grandes */
+  }
 }
