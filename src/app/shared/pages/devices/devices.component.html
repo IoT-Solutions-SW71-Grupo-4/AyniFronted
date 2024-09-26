@@ -1,1 +1,51 @@
-<p>devices works!</p>
+<div class="content">
+    <h2>Devices</h2>
+  
+    <!-- Contenedor para los sensores -->
+    <div class="sensor-list">
+      <!-- Mostrar sensores como tarjetas -->
+      <mat-card 
+        class="sensor-card" 
+        *ngFor="let sensor of sensors" 
+        (click)="selectSensor(sensor)" 
+        [class.selected]="sensor === selectedSensor">
+        <mat-card-header>
+          <mat-card-title>{{ sensor.name }}</mat-card-title>
+          <mat-card-subtitle>{{ sensor.status }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Last reading: {{ sensor.lastReading }}</p>
+          <p>Battery: {{ sensor.battery }}%</p>
+          <p>Installed: {{ sensor.installationDate }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-icon-button (click)="editSensor(sensor)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteSensor(sensor)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+  
+      <!-- Tarjeta para agregar un nuevo sensor -->
+      <mat-card class="add-sensor" (click)="addNewSensor()">
+        <mat-card-content>
+          <mat-icon>add</mat-icon>
+          <p>Add Sensor</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <!-- Mostrar los detalles del sensor seleccionado -->
+    <div *ngIf="selectedSensor" class="sensor-detail">
+      <h3>Sensor Detail</h3>
+      <p><strong>Name:</strong> {{ selectedSensor.name }}</p>
+      <p><strong>Status:</strong> {{ selectedSensor.status }}</p>
+      <p><strong>Last Reading:</strong> {{ selectedSensor.lastReading }}</p>
+      <p><strong>Battery:</strong> {{ selectedSensor.battery }}%</p>
+      <p><strong>Installed:</strong> {{ selectedSensor.installationDate }}</p>
+      <p><strong>Soil Moisture Threshold:</strong> {{ selectedSensor.threshold }}%</p>
+    </div>
+  </div>
+  

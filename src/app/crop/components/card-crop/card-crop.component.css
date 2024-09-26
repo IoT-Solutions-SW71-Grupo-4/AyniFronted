@@ -14,7 +14,7 @@
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   background-color: #ffffff;
 }
-/*imagen*/
+
 .imagen_card{
   height: 190px;
   object-fit: cover;
@@ -26,7 +26,7 @@
   object-fit: cover;
   border-radius: 15px;
 }
-/*icon*/
+
 .icons_content{
   margin-top: 10px;
   display: flex;

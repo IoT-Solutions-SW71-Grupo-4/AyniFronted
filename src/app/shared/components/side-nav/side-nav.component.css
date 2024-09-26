@@ -1,95 +1,81 @@
 .example-container {
+  height: 100vh;
   display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  background-color: #eafaf1; /* Fondo muy claro en un tono verde suave */
 }
-.content_logo_nav{
 
+.mat-sidenav-container {
+  flex: 1;
+}
+
+.mat-sidenav {
+  width: 250px; /* Ancho del sidenav */
+  background-color: #81c784; /* Fondo en un tono verde claro */
+  color: #fff; /* Color del texto */
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+}
+
+.content_logo_nav {
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
 }
 
-.content_logo_nav img{
+.content_logo_nav img {
   width: 100px;
   height: 100px;
 }
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-.header{
-  background-color: #144129;
-  height: 80px;
-  display: flex;
-  justify-content: space-between;
-}
 
-
-/* sidebar*/
-
-.content{
+.content {
   flex: 1 1 auto;
-  background-color: #6f998d;
+  background-color: #6f998d; /* Color de fondo para el contenido */
 }
 
-mat-sidenav{
-  width: 255px;
-  background-color: #DDFFE7;
-  border: 0;
+.mat-nav-list {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1; /* Permitir que la lista ocupe el espacio disponible */
 }
 
-mat-nav-list{
-  margin: 0;
-  padding: 10px 15px;
-}
-
-.link{
+.link {
   display: flex;
   align-items: center;
-  border-radius: 5px;
-  padding: 8px 0;
-  margin: 10px 0;
-  text-decoration: none;
-  color: black;
-  font-size: 20px;
+  padding: 10px;
+  margin: 5px 0;
+  color: #fff; /* Color de texto de los enlaces */
+  text-decoration: none; /* Sin subrayado */
+  border-radius: 4px; /* Bordes redondeados */
+  transition: background 0.3s; /* Efecto de transición */
 }
 
-.link mat-icon{
-  padding: 0 35px;
+.link.login {
+  margin-top: 300px; /* Ajusta el margen según sea necesario */
 }
 
-mat-nav-list a:hover{
-  background-image: linear-gradient(90grad, #04A033,#04A033, #b5e5c9);
-  color: white;
+.link:hover {
+  background-color: #a5d6a7; /* Color de fondo al pasar el mouse */
 }
 
-.link.active{
-  background-image: linear-gradient(90grad, #04A033,#04A033, #b5e5c9);
-  color: white;
+.link.active {
+  background-color: #388e3c; /* Color de fondo activo */
 }
 
-#back{
-  position: absolute;
-  bottom: 0;
+.mat-icon {
+  margin-right: 10px; /* Espaciado entre el ícono y el texto */
+}
+
+#back {
+  margin-top: auto; /* Mover el enlace de Login hacia abajo */
+  background-color: #388e3c; /* Color de fondo para el enlace de Login */
+  border-radius: 4px;
+  padding: 10px;
+  color: #fff;
   text-align: center;
-  order: 1;
-  margin-top: auto;
-  background-color: #EB5757;
-  color: #690000;
-  padding-right: 80px;
+  transition: background 0.3s; /* Efecto de transición */
 }
 
-
-mat-nav-list #back:hover{
-  color: black;
-  background-image: linear-gradient(45deg, #ea3737, #ec8585);
+#back:hover {
+  background-color: #a5d6a7; /* Color de fondo al pasar el mouse sobre Login */
 }
-
-
