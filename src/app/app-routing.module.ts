@@ -7,7 +7,6 @@ import { EditDeviceComponent } from './devices/components/edit-device/edit-devic
 import { AddSensorComponent } from './devices/components/add-sensor/add-sensor.component'; // Asegúrate de importar el componente
 import { SoilAnalysisComponent } from './shared/pages/soil-analysis/soil-analysis.component';
 import { LoginComponent } from './shared/pages/auth/login/login.component';
-import { SideNavComponent } from './shared/pages/side-nav/side-nav.component';
 
 
 const routes: Routes = [
