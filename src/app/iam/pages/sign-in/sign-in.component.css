@@ -1,0 +1,277 @@
+
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Lado izquierdo */
+.left {
+  flex: 1 1 50%;
+  background: url('/bg-auth.png')  no-repeat center center;
+  background-size: cover;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+  box-sizing: border-box;
+}
+
+.left::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.left .header {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+
+.left .header img {
+  height: 50px;
+  margin-right: 15px;
+}
+
+.left .header .brand-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.left .marketing-content {
+  z-index: 2;
+}
+
+.left .marketing-content h1 {
+  font-size: 48px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.left .marketing-content p {
+  font-size: 18px;
+  color: #ddd;
+}
+
+/* Lado derecho */
+.right {
+  flex: 1 1 50%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  box-sizing: border-box;
+}
+
+/* Tarjeta del formulario */
+.card {
+  background-color: #ffffff;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card .title {
+  margin-bottom: 30px;
+  font-size: 32px;
+  color: #1b5e20; /* Verde oscuro */
+  text-align: center;
+}
+
+/* Estilos del formulario */
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.input-field:focus {
+  border-color: #1b5e20; /* Verde oscuro */
+  outline: none;
+}
+
+.password-group {
+  position: relative;
+}
+
+.password-group .fa {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.actions .forgot-password {
+  font-size: 14px;
+  color: #1b5e20; /* Verde oscuro */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.primary-btn {
+  background-color: #1b5e20; /* Verde oscuro */
+  color: #ffffff;
+}
+
+.primary-btn:hover {
+  background-color: #145a32; /* Verde más oscuro */
+}
+
+.google-btn {
+  background-color: #ffffff;
+  color: #757575;
+  border: 1px solid #ccc;
+}
+
+.google-btn:hover {
+  background-color: #f1f1f1;
+}
+
+.google-btn .fab {
+  margin-right: 10px;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 30px 0;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.separator:not(:empty)::before {
+  margin-right: 10px;
+}
+
+.separator:not(:empty)::after {
+  margin-left: 10px;
+}
+
+.separator span {
+  color: #666;
+  font-size: 14px;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.register-link a {
+  color: #1b5e20; /* Verde oscuro */
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.error {
+  color: #e53935;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+/* Responsividad */
+@media (max-width: 992px) {
+  .left, .right {
+    flex: 1 1 100%;
+  }
+
+  .left {
+    padding: 40px 20px;
+  }
+
+  .right {
+    padding: 40px 20px;
+  }
+
+  .left .header {
+    position: static;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+  .left .marketing-content h1 {
+    font-size: 36px;
+    text-align: center;
+  }
+
+  .left .marketing-content p {
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .left .marketing-content h1 {
+    font-size: 28px;
+  }
+
+  .left{
+    display: none;
+  }
+
+  .card .title {
+    font-size: 28px;
+  }
+
+  .input-field {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
