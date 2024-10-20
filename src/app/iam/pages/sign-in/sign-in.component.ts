@@ -1,5 +1,4 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {BaseFormComponent} from "../../../shared/components/base-form.component";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthenticationService} from "../../services/authentication.service";
 import { CommonModule } from '@angular/common';
@@ -13,7 +12,7 @@ import { SignInRequest } from '../../model/sign-in.request';
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
-export default class SignInComponent extends BaseFormComponent implements OnInit {
+export default class SignInComponent implements OnInit {
   form!: FormGroup;
   submitted = signal(false);
   loginError = signal(false);
@@ -21,7 +20,7 @@ export default class SignInComponent extends BaseFormComponent implements OnInit
 
 
     constructor(private builder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) {
-        super();
+        
     }
     ngOnInit(): void {
         this.form = this.builder.group({

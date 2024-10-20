@@ -1,277 +1,267 @@
 
 
 .container {
-  display: flex;
-  min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100vw;
+    min-height: 100vh;
 }
 
-/* Lado izquierdo */
+.left, .right {
+    padding: 20px;
+}
+
 .left {
-  flex: 1 1 50%;
-  background: url('/bg-auth.png')  no-repeat center center;
-  background-size: cover;
+  flex: 1;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1)), url('/bg-auth.png');
+  background-size: auto 100%; /* Ajustar la altura de la imagen al 100% del contenedor */
+  background-position: right top; /* Comenzar la imagen desde la derecha */
+  background-repeat: repeat; /* Repetir la imagen horizontalmente y verticalmente */
+
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 60px;
-  box-sizing: border-box;
-}
-
-.left::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.left .header {
-  position: absolute;
-  top: 30px;
-  left: 40px;
-  display: flex;
-  align-items: center;
-  z-index: 2;
-}
-
-.left .header img {
-  height: 50px;
-  margin-right: 15px;
-}
-
-.left .header .brand-name {
-  font-size: 28px;
-  font-weight: 700;
   color: #fff;
-}
-
-.left .marketing-content {
-  z-index: 2;
-}
-
-.left .marketing-content h1 {
-  font-size: 48px;
-  color: #fff;
-  margin-bottom: 20px;
-}
-
-.left .marketing-content p {
-  font-size: 18px;
-  color: #ddd;
-}
-
-/* Lado derecho */
-.right {
-  flex: 1 1 50%;
-  background-color: #ffffff;
+  overflow: hidden;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 60px;
-  box-sizing: border-box;
+  align-items: flex-start; /* Centrar verticalmente el contenido */
+  justify-content: center; /* Centrar horizontalmente el contenido */
 }
 
-/* Tarjeta del formulario */
-.card {
-  background-color: #ffffff;
+
+
+.marketing-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
   padding: 40px;
-  width: 100%;
-  max-width: 500px;
-  box-sizing: border-box;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.card .title {
-  margin-bottom: 30px;
-  font-size: 32px;
-  color: #1b5e20; /* Verde oscuro */
   text-align: center;
-}
-
-/* Estilos del formulario */
-.form-group {
-  margin-bottom: 25px;
-}
-
-.form-group label {
-  font-size: 14px;
-  color: #333;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.input-field {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-.input-field:focus {
-  border-color: #1b5e20; /* Verde oscuro */
-  outline: none;
-}
-
-.password-group {
-  position: relative;
-}
-
-.password-group .fa {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #888;
-}
-
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.actions .forgot-password {
-  font-size: 14px;
-  color: #1b5e20; /* Verde oscuro */
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.btn {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.primary-btn {
-  background-color: #1b5e20; /* Verde oscuro */
   color: #ffffff;
 }
 
-.primary-btn:hover {
-  background-color: #145a32; /* Verde más oscuro */
+
+.marketing-content h1 {
+  font-size: 2.5em;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); /* Sombra para destacar el texto */
 }
 
-.google-btn {
-  background-color: #ffffff;
-  color: #757575;
-  border: 1px solid #ccc;
+.marketing-content p {
+  font-size: 1.2em;
+  line-height: 1.5;
+  color: #ffffff;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8); /* Sombra para destacar el texto */
 }
 
-.google-btn:hover {
-  background-color: #f1f1f1;
+
+
+.right {
+    flex: 1;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.google-btn .fab {
-  margin-right: 10px;
+.card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 380px;
 }
 
-.separator {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 30px 0;
+.title {
+    text-align: center;
+    font-size: 1.8em;
+    color: #257B32; /* Color 6 */
+    margin-bottom: 25px;
+    font-weight: 600;
 }
 
-.separator::before,
-.separator::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid #ccc;
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
 }
 
-.separator:not(:empty)::before {
-  margin-right: 10px;
+.form-group label {
+    display: block;
+    font-size: 0.9em;
+    color: #333; /* Negro */
+    margin-bottom: 5px;
+    font-weight: 500;
 }
 
-.separator:not(:empty)::after {
-  margin-left: 10px;
+.input-field {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc; /* Plomo claro */
+    border-radius: 4px;
+    font-size: 0.95em;
+    transition: border-color 0.3s;
 }
 
-.separator span {
-  color: #666;
-  font-size: 14px;
+.input-field:focus {
+    border-color: #6BB86A; /* Color 4 */
+    outline: none;
 }
 
-.register-link {
-  text-align: center;
-  margin-top: 20px;
+.password-group .password-input-wrapper {
+    position: relative;
 }
 
-.register-link a {
-  color: #1b5e20; /* Verde oscuro */
-  text-decoration: none;
-  font-weight: 500;
-  cursor: pointer;
+.password-group .fa {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999; /* Plomo oscuro */
+    transition: color 0.3s;
+}
+
+.password-group .fa:hover {
+    color: #666;
 }
 
 .error {
-  color: #e53935;
-  font-size: 13px;
-  margin-top: 5px;
+    color: #e53935; /* Rojo para errores */
+    font-size: 0.85em;
+    margin-top: 5px;
 }
 
-/* Responsividad */
-@media (max-width: 992px) {
-  .left, .right {
-    flex: 1 1 100%;
-  }
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
 
-  .left {
-    padding: 40px 20px;
-  }
+.forgot-password {
+    color: #257B32; /* Color 6 */
+    text-decoration: none;
+    font-size: 0.85em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s;
+}
 
-  .right {
-    padding: 40px 20px;
-  }
+.forgot-password:hover {
+    color: #0D5730; /* Color 7 */
+}
 
-  .left .header {
-    position: static;
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 20px; /* Border-radius más fino */
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 600;
+}
+
+.primary-btn {
+    background-color: #49A34A; /* Color 5 */
+    color: #fff;
+}
+
+.primary-btn:hover {
+    background-color: #257B32; /* Color 6 */
+}
+
+.primary-btn:disabled {
+    background-color: #A5D59A; /* Color 3 */
+    cursor: not-allowed;
+}
+
+.google-btn {
+    background-color: #fff;
+    color: #757575; /* Gris medio */
+    border: 1px solid #ccc; /* Plomo claro */
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
-  }
-
-  .left .marketing-content h1 {
-    font-size: 36px;
-    text-align: center;
-  }
-
-  .left .marketing-content p {
-    text-align: center;
-  }
+    transition: border-color 0.3s;
+    border-radius: 20px; /* Border-radius más fino */
 }
 
-@media (max-width: 600px) {
-  .left .marketing-content h1 {
-    font-size: 28px;
-  }
+.google-btn i {
+    margin-right: 8px;
+}
 
-  .left{
-    display: none;
-  }
+.google-btn:hover {
+    border-color: #999;
+}
 
-  .card .title {
-    font-size: 28px;
-  }
+.separator {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
 
-  .input-field {
-    font-size: 14px;
-    padding: 12px;
-  }
+.separator span {
+    background-color: #fff;
+    padding: 0 10px;
+    color: #757575; /* Gris medio */
+    font-size: 0.9em;
+}
 
-  .btn {
-    padding: 12px;
-    font-size: 14px;
-  }
+.separator::before, .separator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 25px);
+    height: 1px;
+    background-color: #ddd; /* Plomo claro */
+}
+
+.separator::before {
+    left: 0;
+}
+
+.separator::after {
+    right: 0;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.register-link p {
+    font-size: 0.9em;
+    color: #333; /* Negro */
+}
+
+.register-link a {
+    color: #257B32; /* Color 6 */
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.register-link a:hover {
+    color: #0D5730; /* Color 7 */
+}
+
+/* Diseño responsivo */
+@media screen and (max-width: 991px) {
+    .left {
+        display: none;
+    }
+    .right {
+        flex: 1 1 100%;
+        padding: 20px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .title {
+        font-size: 1.5em;
+    }
+    .btn {
+        padding: 10px;
+    }
 }
