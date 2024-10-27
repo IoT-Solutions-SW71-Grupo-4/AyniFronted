@@ -1,3 +1,7 @@
 export class SignUpRequest {
-  constructor(public username: string, public password: string, public fullname: string) {}
+  constructor(
+    public fullName: string,
+    public email: string,
+    public password: string,
+  ) {}
 }
