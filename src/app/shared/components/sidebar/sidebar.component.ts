@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthenticationService } from '../../../iam/services/authentication.service';
 
@@ -7,16 +7,19 @@ import { AuthenticationService } from '../../../iam/services/authentication.serv
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
   constructor(private authService: AuthenticationService) {}
-  isSidebarOpen = false;
+
+  @Output() menuClicked = new EventEmitter<void>();
+  @Input() isVisible = false;
+
   logout(): void {
     this.authService.signOut();
   }
 
-  toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
+  closeSidebar() {
+    this.menuClicked.emit();
   }
 }

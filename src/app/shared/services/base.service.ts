@@ -1,22 +1,25 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, retry, throwError } from 'rxjs';
-import {environment} from "../../../environments/environment";
+import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class BaseService<T> {
-
   basePath: string = `${environment.serverBasePath}`;
   resourceEndpoint: string = '/resource';
 
   httpOptions = {
     headers: new HttpHeaders({
       'Content-type': 'application/json',
-    })
-  }
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    }),
+  };
 
   constructor(private http: HttpClient) {}
 
@@ -24,32 +27,57 @@ export class BaseService<T> {
     if (error.error instanceof ErrorEvent) {
       console.log(`An error occurred ${error.error.message}`);
     } else {
-      console.log(`Backend returned code ${error.status}, body was ${error.error}`);
+      console.log(
+        `Backend returned code ${error.status}, body was ${error.error}`,
+      );
     }
-    return throwError(() => new Error('Something happened with request, please try again later'));
+    return throwError(
+      () =>
+        new Error('Something happened with request, please try again later'),
+    );
   }
 
   private resourcePath() {
     return `${this.basePath}${this.resourceEndpoint}`;
   }
 
-  create(item: any): Observable<T> {
-    return this.http.post<T>(this.resourcePath(), JSON.stringify(item), this.httpOptions)
+  create(item: T): Observable<T> {
+    return this.http
+      .post<T>(this.resourcePath(), JSON.stringify(item), this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
   }
 
-  delete(id: any) {
-    return this.http.delete(`${this.resourcePath()}/${id}`, this.httpOptions)
-    .pipe(retry(2), catchError(this.handleError));
-  }
+  createWithFile(formData: FormData): Observable<any> {
+    const httpOptionsWithAuth = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
 
-  update(id: any, item: any): Observable<T> {
-    return this.http.put<T>(`${this.resourcePath()}/${id}`, JSON.stringify(item), this.httpOptions)
+    return this.http
+      .post(this.resourcePath(), formData, httpOptionsWithAuth)
       .pipe(retry(2), catchError(this.handleError));
   }
 
-  getAll(): Observable<T> {
-    return this.http.get<T>(this.resourcePath(), this.httpOptions)
+  delete(id: number): Observable<void> {
+    return this.http
+      .delete<void>(`${this.resourcePath()}/${id}`, this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
+  }
+
+  update(id: number, item: T): Observable<T> {
+    return this.http
+      .put<T>(
+        `${this.resourcePath()}/${id}`,
+        JSON.stringify(item),
+        this.httpOptions,
+      )
+      .pipe(retry(2), catchError(this.handleError));
+  }
+
+  getAll(): Observable<T[]> {
+    return this.http
+      .get<T[]>(this.resourcePath(), this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
   }
 }
