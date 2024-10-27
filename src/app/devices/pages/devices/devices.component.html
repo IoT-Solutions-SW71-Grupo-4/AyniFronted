@@ -1,1 +1,93 @@
-<p>devices works!</p>
+<div class="content">
+  @if (isAddingDevice()) {
+    <app-add-device
+      [crops]="crops()"
+      (deviceAdded)="addDevice($event)"
+    ></app-add-device>
+  } @else {
+    <div class="header">
+      <h2>Devices</h2>
+
+      <button class="add-device-button" (click)="startAddingDevice()">
+        <i class="fas fa-plus"></i> Add Device
+      </button>
+    </div>
+
+    <div class="filter-section">
+      <label for="crop-filter">Filter by Crop:</label>
+
+      <select
+        id="crop-filter"
+        [(ngModel)]="selectedCropId"
+        (change)="filterDevicesByCrop()"
+      >
+        <option [ngValue]="null">All Crops</option>
+        <option *ngFor="let crop of crops()" [ngValue]="crop.id">
+          {{ crop.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="device-list">
+      @for (device of filteredDevices(); track device.id) {
+        <div
+          class="device-card"
+          (click)="selectDevice(device)"
+          [class.selected]="device === selectedDevice()"
+        >
+          <div class="device-header">
+            <h3>{{ device.name }}</h3>
+            <span class="status">{{ device.status }}</span>
+            <button
+              class="delete-button"
+              (click)="deleteDevice(device); $event.stopPropagation()"
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+          <div class="device-content">
+            <p><strong>Type:</strong> {{ device.type }}</p>
+            <p><strong>Crop:</strong> {{ getCropName(device.cropId) }}</p>
+          </div>
+        </div>
+      } @empty {
+        <p>No devices available.</p>
+      }
+    </div>
+
+    @if (selectedDevice()) {
+      <div class="device-detail">
+        <h3>Device Detail</h3>
+        <p><strong>Name:</strong> {{ selectedDevice()?.name }}</p>
+        <p>
+          <strong>Status:</strong>
+          <span
+            [class]="
+              selectedDevice()?.status === 'active'
+                ? 'status-active'
+                : 'status-inactive'
+            "
+          >
+            {{ selectedDevice()?.status }}
+          </span>
+          <button
+            class="toggle-status-button"
+            (click)="toggleDeviceStatus(selectedDevice()!)"
+          >
+            {{
+              selectedDevice()?.status === "active" ? "Deactivate" : "Activate"
+            }}
+          </button>
+        </p>
+        <p>
+          <strong>Last Reading:</strong>
+          {{ selectedDevice()?.lastReading | date: "mediumDate" }}
+        </p>
+        <p>
+          <strong>Installed:</strong>
+          {{ selectedDevice()?.installationDate | date: "mediumDate" }}
+        </p>
+      </div>
+    }
+  }
+</div>
