@@ -25,6 +25,12 @@ export const routes: Routes = [
         canActivate: [authenticationGuard],
       },
       {
+        path: 'add-device',
+        loadComponent: () =>
+          import('./devices/components/add-device/add-device.component'),
+        canActivate: [authenticationGuard],
+      },
+      {
         path: 'irrigation',
         loadComponent: () =>
           import('./irrigation/pages/irrigation/irrigation.component'),
