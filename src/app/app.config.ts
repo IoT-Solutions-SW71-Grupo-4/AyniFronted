@@ -12,6 +12,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withFetch()),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true } 
-  ]
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true,
+    },
+  ],
 };
