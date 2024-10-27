@@ -1,5 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
 import { SignUpRequest } from '../../model/sign-up.request';
@@ -10,7 +16,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
 })
 export default class RegisterComponent implements OnInit {
   form!: FormGroup;
@@ -21,7 +27,7 @@ export default class RegisterComponent implements OnInit {
   constructor(
     private builder: FormBuilder,
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +35,7 @@ export default class RegisterComponent implements OnInit {
       fullname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      terms: [false, Validators.requiredTrue]  // Campo 'terms' requerido
+      terms: [false, Validators.requiredTrue],
     });
 
     this.form.valueChanges.subscribe(() => {
@@ -39,14 +45,16 @@ export default class RegisterComponent implements OnInit {
   }
 
   togglePasswordVisibility(): void {
-    this.passwordFieldType.update(value => value === 'password' ? 'text' : 'password');
+    this.passwordFieldType.update((value) =>
+      value === 'password' ? 'text' : 'password',
+    );
   }
 
   onSubmit(): void {
     if (this.form.invalid) return;
 
     const { fullname, email, password } = this.form.value;
-    const signUpRequest = new SignUpRequest(email, password, fullname);
+    const signUpRequest = new SignUpRequest(fullname, email, password);
 
     this.authenticationService.signUp(signUpRequest);
     if (this.authenticationService) {
@@ -55,7 +63,6 @@ export default class RegisterComponent implements OnInit {
     } else {
       this.registrationError.set(true);
     }
-
   }
 
   signIn(): void {

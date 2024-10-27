@@ -1,17 +1,16 @@
-<!-- component -->
-<div class="min-h-screen bg-gray-50/50">
-  <div class="flex">
-    
-    <app-sidebar/>
-    <div class="p-4 xl:ml-80">
-      <nav class="border border-red-800 block w-full max-w-full bg-transparent text-white shadow-none rounded-xl transition-all px-0 py-1">
-        <app-header/>
-      </nav>
-      <div class="mt-12">
-        <router-outlet/>
-      </div>
-      
-    </div>
-  </div>
+<div class="main-container">
+  <app-header (menuClicked)="toggleSidebar()"></app-header>
+  <div
+    class="overlay"
+    [class.show]="isSidebarVisible"
+    (click)="toggleSidebar()"
+  ></div>
+  <app-sidebar
+    [isVisible]="isSidebarVisible"
+    (menuClicked)="toggleSidebar()"
+  ></app-sidebar>
 
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
 </div>

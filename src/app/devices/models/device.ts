@@ -1,2 +1,1 @@
-export class Device {
-}
+export class Device {}

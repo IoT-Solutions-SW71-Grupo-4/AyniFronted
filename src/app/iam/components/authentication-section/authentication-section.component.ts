@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../../services/authentication.service";
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,12 +8,15 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './authentication-section.component.html',
-  styleUrl: './authentication-section.component.css'
+  styleUrl: './authentication-section.component.css',
 })
 export default class AuthenticationSectionComponent {
   currentUsername: string = '';
   isSignedIn: boolean = false;
-  constructor(private router: Router, private authenticationService: AuthenticationService)  {
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService,
+  ) {
     this.authenticationService.currentUsername.subscribe((username) => {
       this.currentUsername = username;
     });
@@ -33,5 +36,4 @@ export default class AuthenticationSectionComponent {
   onLogout() {
     this.authenticationService.signOut();
   }
-
 }
