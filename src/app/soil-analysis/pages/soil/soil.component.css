@@ -1,0 +1,91 @@
+.soil-analysis-container {
+  background-color: var(--color-white);
+  color: var(--color-text);
+}
+
+.crop-select-container {
+  margin-bottom: 16px;
+}
+
+.crop-select-container label {
+  font-weight: bold;
+  color: var(--color-text-secondary);
+}
+
+.crop-select {
+  margin-top: 4px;
+  padding: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-white);
+  color: var(--color-text);
+}
+
+.soil-analysis-details {
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 16px;
+    width: 30%;
+    box-shadow: 0 4px 6px var(--color-shadow);
+    text-align: center;
+  }
+
+  .icon {
+    font-size: 24px;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+  }
+
+  h3 {
+    font-size: 18px;
+    color: var(--color-text);
+  }
+
+  p {
+    font-size: 16px;
+    color: var(--color-text-secondary);
+  }
+
+  .analysis-date {
+    margin-top: 16px;
+    font-weight: bold;
+    color: var(--color-text);
+  }
+
+  .nutrients-section {
+    margin-top: 20px;
+    h3 {
+      color: var(--color-active);
+    }
+  }
+
+  .nutrient-details {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .chart-container {
+    margin-top: 24px;
+    .pie-chart-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .no-selection {
+    color: var(--color-danger);
+    font-size: 18px;
+    text-align: center;
+    margin-top: 32px;
+  }
+}
