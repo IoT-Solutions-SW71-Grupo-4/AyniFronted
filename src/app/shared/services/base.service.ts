@@ -6,6 +6,7 @@ import {
 import { Injectable } from '@angular/core';
 import { catchError, Observable, retry, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { AuthenticationService } from '../../iam/services/authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ import { environment } from '../../../environments/environment';
 export class BaseService<T> {
   basePath: string = `${environment.serverBasePath}`;
   resourceEndpoint: string = '/resource';
+  farmerId: number | null = null;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -78,6 +80,12 @@ export class BaseService<T> {
   getAll(): Observable<T[]> {
     return this.http
       .get<T[]>(this.resourcePath(), this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
+  }
+
+  getByCustomPath(customPath: string): Observable<T[]> {
+    return this.http
+      .get<T[]>(`${this.resourcePath()}/${customPath}`, this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
   }
 }

@@ -15,15 +15,36 @@ body {
 }
 
 :root {
-  --color-primary: #d6f8e6;
-  --color-secondary: #a3d9c3;
-  --color-active: #3bb860;
-  --color-active-light: #e6ffe9;
-  --color-text: #333;
-  --color-text-secondary: #666;
-  --color-border: #ddd;
+  --color-primary: #81c784;
+  --color-secondary: #aed581;
+  --color-accent: #4caf50;
+  --color-accent-light: #e8f5e9;
 
-  --color-light: #f1f1f1;
+  --color-active: #2e7d32;
+  --color-active-light: #c8e6c9;
+
+  --color-text: #263238;
+  --color-text-secondary: #607d8b;
+  --color-border: #cfd8dc;
+
+  --color-light: #f1f8e9;
   --color-white: #ffffff;
-  --color-shadow: rgba(0, 0, 0, 0.2);
+  --color-shadow: rgba(0, 0, 0, 0.12);
+  --color-danger: #e57373;
+}
+
+.device-list::-webkit-scrollbar,
+.crops-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.device-list::-webkit-scrollbar-thumb,
+.crops-grid::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 4px;
+}
+
+.device-list::-webkit-scrollbar-thumb:hover,
+.crops-grid::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-secondary);
 }

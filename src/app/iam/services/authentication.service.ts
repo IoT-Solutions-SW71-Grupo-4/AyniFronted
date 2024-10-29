@@ -7,12 +7,6 @@ import { SignUpRequest } from '../model/sign-up.request';
 import { SignUpResponse } from '../model/sign-up.response';
 import { SignInRequest } from '../model/sign-in.request';
 import { SignInResponse } from '../model/sign-in.response';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
-
-interface CustomJwtPayload extends JwtPayload {
-  userId: number;
-  username: string;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -84,7 +78,7 @@ export class AuthenticationService {
           this.signedInUsername.next(response.email);
           localStorage.setItem('token', response.token);
           console.log(`Signed in as with token ${response.token}`);
-          this.router.navigate(['/dashboard']).then();
+          this.router.navigate(['/devices']).then();
         },
         error: (error) => {
           console.error(`Error while signing in: ${error}`);

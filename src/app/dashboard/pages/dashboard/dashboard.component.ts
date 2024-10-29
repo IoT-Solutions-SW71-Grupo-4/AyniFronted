@@ -1,4 +1,4 @@
-import { Component, signal, effect } from '@angular/core';
+import { Component, signal, effect, OnInit } from '@angular/core';
 import { Crop } from '../../../crops/model/crop';
 import { CropService } from '../../../crops/services/crop.service';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export default class DashboardComponent {
+export default class DashboardComponent implements OnInit {
   crops = signal<Crop[]>([]);
   selectedCrop = signal<Crop | null>(null);
   currentDate = new Date();
@@ -65,12 +65,14 @@ export default class DashboardComponent {
     failure: 1,
   });
 
-  constructor(private cropService: CropService) {
+  constructor(private cropService: CropService) {}
+
+  ngOnInit(): void {
     this.loadCrops();
   }
 
   loadCrops(): void {
-    this.cropService.getAll().subscribe((cropsData: Crop[]) => {
+    this.cropService.getCropsByFarmer().subscribe((cropsData: Crop[]) => {
       this.crops.set(cropsData);
       if (cropsData.length > 0) {
         this.selectedCrop.set(cropsData[0]);
