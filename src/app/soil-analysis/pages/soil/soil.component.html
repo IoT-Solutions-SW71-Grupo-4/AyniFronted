@@ -1,1 +1,77 @@
-<p>soil works!</p>
+<div class="soil-analysis-container">
+  <div class="crop-select-container">
+    <label for="cropSelect">Select a Crop:</label>
+    <select
+      id="cropSelect"
+      #cropSelect
+      (change)="onCropSelect(cropSelect.value)"
+      class="crop-select"
+    >
+      @for (crop of crops; track crop.id) {
+        <option [value]="crop.id">
+          {{ crop.cropName }}
+        </option>
+      }
+    </select>
+  </div>
+
+  @if (selectedSoilAnalysis) {
+    <div class="soil-analysis-details">
+      <div class="cards-container">
+        <div class="card">
+          <i class="fas fa-flask icon"></i>
+          <h3>pH Level</h3>
+          <p>{{ selectedSoilAnalysis.pHLevel }}</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-temperature-high icon"></i>
+          <h3>Temperature</h3>
+          <p>{{ selectedSoilAnalysis.temperature }} °C</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-tint icon"></i>
+          <h3>Moisture</h3>
+          <p>{{ selectedSoilAnalysis.moisture }} %</p>
+        </div>
+      </div>
+
+      <div class="nutrients-section">
+        <h3>Nutrient Levels</h3>
+        <div class="nutrient-details">
+          @for (nutrient of pieChartData; track nutrient.name) {
+            <div class="nutrient">
+              <p>
+                <strong>{{ nutrient.name }}</strong
+                >: {{ nutrient.value }} %
+              </p>
+            </div>
+          } @empty {
+            <div>No nutrient data available.</div>
+          }
+        </div>
+      </div>
+
+      <p class="analysis-date">
+        <strong>Analysis Date:</strong> {{ selectedSoilAnalysis.analysisDate }}
+      </p>
+
+      @if (pieChartData.length > 0) {
+        <div class="chart-container">
+          <div class="pie-chart-wrapper">
+            <apx-chart
+              [series]="chartOptions.series"
+              [chart]="chartOptions.chart"
+              [labels]="chartOptions.labels"
+              [responsive]="chartOptions.responsive"
+              [title]="chartOptions.title"
+            ></apx-chart>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="no-selection">
+      <p>Please select a crop to see the soil analysis.</p>
+    </div>
+  }
+</div>
