@@ -13,7 +13,6 @@
   border-radius: 10px;
   width: calc(100% - 270px);
   min-height: calc(100vh - 90px);
-  border: 2px solid red;
   background-color: var(--color-white);
   overflow-y: auto;
 }
