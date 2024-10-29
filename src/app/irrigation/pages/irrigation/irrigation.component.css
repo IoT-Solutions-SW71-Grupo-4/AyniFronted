@@ -1,0 +1,127 @@
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.title {
+  color: var(--color-text);
+  text-align: center;
+  font-size: 1.8em;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.label {
+  color: var(--color-text-secondary);
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-light);
+  color: var(--color-text);
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.nav-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: var(--color-light);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.nav-btn:hover {
+  background-color: var(--color-accent-light);
+  color: var(--color-active);
+}
+
+.nav-btn.active {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.section-title {
+  color: var(--color-text);
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.duration-input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-white);
+  color: var(--color-text);
+}
+
+.action-btn-group {
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+}
+
+.action-btn {
+  padding: 8px 16px;
+  background-color: var(--color-secondary);
+  border: none;
+  border-radius: 4px;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+  background-color: var(--color-accent);
+}
+
+.checkbox-label {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.card {
+  background-color: var(--color-light);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0px 2px 5px var(--color-shadow);
+}
+
+.card-title {
+  font-size: 1.2em;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.feedback {
+  padding: 10px;
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-light);
+  border-radius: 5px;
+  color: var(--color-text);
+  margin-top: 15px;
+  text-align: center;
+}
