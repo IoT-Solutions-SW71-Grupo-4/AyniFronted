@@ -78,7 +78,7 @@ export class AuthenticationService {
           this.signedInUsername.next(response.email);
           localStorage.setItem('token', response.token);
           console.log(`Signed in as with token ${response.token}`);
-          this.router.navigate(['/devices']).then();
+          this.router.navigate(['/dashboard']).then();
         },
         error: (error) => {
           console.error(`Error while signing in: ${error}`);
