@@ -23,7 +23,7 @@ export class BaseService<T> {
     }),
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(protected http: HttpClient) {}
 
   handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -39,7 +39,7 @@ export class BaseService<T> {
     );
   }
 
-  private resourcePath() {
+  protected resourcePath() {
     return `${this.basePath}${this.resourceEndpoint}`;
   }
 
@@ -80,6 +80,12 @@ export class BaseService<T> {
   getAll(): Observable<T[]> {
     return this.http
       .get<T[]>(this.resourcePath(), this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
+  }
+
+  getById(id: number): Observable<T> {
+    return this.http
+      .get<T>(`${this.resourcePath()}/${id}`, this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
   }
 

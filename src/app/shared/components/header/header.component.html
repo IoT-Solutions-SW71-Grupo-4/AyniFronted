@@ -6,12 +6,14 @@
   </div>
 
   <div class="header-right">
-    <a routerLink="/notifications" class="header-icon">
-      <i class="fas fa-bell"></i>
-    </a>
+   
+  
     <a class="user-info" routerLink="/profile">
       <img [src]="userImage" alt="User Avatar" />
       <span>{{ userName }}</span>
+    </a>
+    <a routerLink="/notifications" class="header-icon">
+      <i class="fas fa-bell"></i>
     </a>
   </div>
 </header>
