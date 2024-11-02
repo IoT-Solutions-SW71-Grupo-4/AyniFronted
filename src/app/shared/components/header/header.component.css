@@ -18,6 +18,10 @@ header {
     top 0.3s ease;
 }
 
+a{
+  text-decoration: none;
+}
+
 .header-left {
   display: none;
   align-items: center;
@@ -88,7 +92,5 @@ header {
     align-items: center;
   }
 
-  .user-info span {
-    display: none;
-  }
+  
 }
