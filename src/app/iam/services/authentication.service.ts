@@ -7,7 +7,6 @@ import { SignUpRequest } from '../model/sign-up.request';
 import { SignUpResponse } from '../model/sign-up.response';
 import { SignInRequest } from '../model/sign-in.request';
 import { SignInResponse } from '../model/sign-in.response';
-import { UserStateService } from '../../shared/services/user-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +30,7 @@ export class AuthenticationService {
 
   constructor(
     private router: Router,
-    private http: HttpClient,
-    private userState: UserStateService,
+    private http: HttpClient
   ) {}
 
   get isSignedIn() {
@@ -66,7 +64,6 @@ export class AuthenticationService {
   }
 
   signIn(signInRequest: SignInRequest) {
-    console.log(signInRequest);
     return this.http
       .post<SignInResponse>(
         `${this.basePath}/auth/sign-in`,
@@ -80,7 +77,6 @@ export class AuthenticationService {
           this.signedInUsername.next(response.email);
           localStorage.setItem('token', response.token);
           console.log(`Signed in as with token ${response.token}`);
-          this.userState.loadUserData(response.id);
           this.router.navigate(['/dashboard']).then();
         },
         error: (error) => {
