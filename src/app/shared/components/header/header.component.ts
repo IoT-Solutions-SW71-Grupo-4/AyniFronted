@@ -4,6 +4,7 @@ import { AuthenticationService } from '../../../iam/services/authentication.serv
 import { CommonModule } from '@angular/common';
 import { FarmerService } from '../../../profile/services/farmer.service';
 import { Subscription } from 'rxjs';
+import { UserStateService } from '../../services/user-state.service';
 
 @Component({
   selector: 'app-header',
@@ -12,38 +13,21 @@ import { Subscription } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent implements OnInit {
-  constructor(
-    private authService: AuthenticationService,
-    private router: Router,
-    private farmerService: FarmerService
-  ) {}
+export class HeaderComponent {
+ 
 
   @Output() menuClicked = new EventEmitter<void>();
   userName: string = 'Usuario';
   userId!: number;
-  userImage!: string;
+  userImage?: string;
 
   private subscriptions: Subscription = new Subscription();
 
-  ngOnInit(): void {
-    this.subscriptions.add(
-      this.authService.currentUserId.subscribe((userId) => {
-          this.userId = userId;
-          this.loadFarmerDetails(userId);
-        
-      })
-    );
-  }
+  constructor(
+    public userState: UserStateService,
+  ) {}
 
-  loadFarmerDetails(userId: number): void {
-    this.subscriptions.add(
-      this.farmerService.getById(userId).subscribe((farmer) => {
-        this.userName = farmer.username;
-        this.userImage = farmer.imageUrl ?? 'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg';
-      })
-    );
-  }
+
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
