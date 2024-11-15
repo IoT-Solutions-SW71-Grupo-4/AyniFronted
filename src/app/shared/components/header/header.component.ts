@@ -1,10 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AuthenticationService } from '../../../iam/services/authentication.service';
 import { CommonModule } from '@angular/common';
 import { FarmerService } from '../../../profile/services/farmer.service';
 import { Subscription } from 'rxjs';
 import { UserStateService } from '../../services/user-state.service';
+import { AuthenticationService } from '../../../iam/services/authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -13,20 +13,27 @@ import { UserStateService } from '../../services/user-state.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
  
 
   @Output() menuClicked = new EventEmitter<void>();
   userName: string = 'Usuario';
-  userId!: number;
   userImage?: string;
 
   private subscriptions: Subscription = new Subscription();
 
   constructor(
-    public userState: UserStateService,
-  ) {}
+    public userState: UserStateService, private authenticationService: AuthenticationService
+  ) {
+    
+   
+  }
 
+  ngOnInit(): void {
+    this.authenticationService.currentUserId.subscribe((id: number) => {
+      this.userState.loadUserData(id);
+    });
+  }
 
 
   ngOnDestroy(): void {
