@@ -4,13 +4,10 @@
       <i class="fas fa-bars"></i>
     </button>
   </div>
-
   <div class="header-right">
-   
-  
     <a class="user-info" routerLink="/profile">
-      <img [src]="userImage" alt="User Avatar" />
-      <span>{{ userName }}</span>
+      <img [src]="userState.userImage() || 'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg'" alt="User Avatar" />
+      <span>{{ userState.username() }}</span>
     </a>
     <a routerLink="/notifications" class="header-icon">
       <i class="fas fa-bell"></i>

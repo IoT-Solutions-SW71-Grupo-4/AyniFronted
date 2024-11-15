@@ -30,7 +30,7 @@ export class AuthenticationService {
 
   constructor(
     private router: Router,
-    private http: HttpClient,
+    private http: HttpClient
   ) {}
 
   get isSignedIn() {
@@ -64,7 +64,6 @@ export class AuthenticationService {
   }
 
   signIn(signInRequest: SignInRequest) {
-    console.log(signInRequest);
     return this.http
       .post<SignInResponse>(
         `${this.basePath}/auth/sign-in`,

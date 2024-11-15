@@ -1,39 +1,55 @@
 <div class="profile">
-  <h2>User Profile</h2>
-
-  @let user = farmer;
-  @if (user) {
-      @if (!editMode) {
-          <div>
-              <img [src]="imagePreviewUrl || 'assets/default-image.png'" alt="Image of {{ user.username }}" />
-              <p>Name: {{ user.username }}</p>
-              <p>Email: {{ user.email }}</p>
-              <p>Phone: {{ user.phoneNumber || 'Not specified' }}</p>
-
-              <button class="primary-button" (click)="toggleEditMode()">Edit Profile</button>
-          </div>
+   
+  
+    <h2>User Profile</h2>
+  
+    <!-- Profile Image and Edit Icon -->
+    <div class="profile-image-container">
+        <img
+          [src]="tempImageUrl || farmer.imageUrl || 'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg'"
+          alt="User's Profile Picture"
+          class="profile-picture"
+        />
+        @if (editMode) {
+          <button type="button" class="edit-icon" aria-label="Edit Profile Picture" (click)="updateImage()">
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+        }
+      </div>
+  
+    <!-- Loading Indicator -->
+    @if (isLoading) {
+        <div class="loading-bar-container"><div class="loading-bar"></div></div>
       }
-
-      @if (editMode) {
-          <div>
-              <form (ngSubmit)="updateFarmer()">
-                  <label for="username">Name</label>
-                  <input [(ngModel)]="user.username" name="username" id="username" type="text" />
-
-                  <label for="email">Email</label>
-                  <input [(ngModel)]="user.email" name="email" id="email" type="email" />
-
-                  <label for="phoneNumber">Phone</label>
-                  <input [(ngModel)]="user.phoneNumber" name="phoneNumber" id="phoneNumber" type="tel" />
-
-                  <input type="file" (change)="onImageSelected($event)" />
-
-                  <button type="submit" class="primary-button">Save Changes</button>
-                  <button type="button" class="cancel-button" (click)="toggleEditMode()">Cancel</button>
-              </form>
-          </div>
+  
+    <!-- Profile Information -->
+    @if (!editMode) {
+        <div class="profile-info">
+          <p><strong>Name:</strong> {{ farmer.username }}</p>
+          <p><strong>Email:</strong> {{ farmer.email }}</p>
+          <p><strong>Phone:</strong> {{ farmer.phoneNumber || 'Not specified' }}</p>
+          <button class="primary-button" (click)="toggleEditMode()">Edit Profile</button>
+        </div>
       }
-  } @else {
-      <p class="loading">Loading profile...</p>
-  }
-</div>
+    
+  
+    <!-- Edit Form -->
+    @if (editMode) {
+        <form class="profile-form" (ngSubmit)="updateFarmer()">
+          <label for="username">Name</label>
+          <input [(ngModel)]="farmer.username" name="username" id="username" type="text" required />
+    
+          <label for="email">Email</label>
+          <input [(ngModel)]="farmer.email" name="email" id="email" type="email" required />
+    
+          <label for="phoneNumber">Phone</label>
+          <input [(ngModel)]="farmer.phoneNumber" name="phoneNumber" id="phoneNumber" type="tel" />
+    
+          <div class="form-buttons">
+            <button type="submit" class="primary-button">Save Changes</button>
+            <button type="button" class="cancel-button" (click)="toggleEditMode()">Cancel</button>
+          </div>
+        </form>
+      }
+  </div>
+  

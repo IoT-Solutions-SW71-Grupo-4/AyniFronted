@@ -4,7 +4,7 @@ export class Farmer {
   email: string;
   phoneNumber: string;
   password: string;
-  imageUrl: string | null;
+  imageUrl: string;
 
   constructor() {
     this.id = 0;
@@ -12,6 +12,6 @@ export class Farmer {
     this.email = '';
     this.phoneNumber = '';
     this.password = '';
-    this.imageUrl = null;
+    this.imageUrl = '';
   }
 }
