@@ -37,33 +37,6 @@
   color: var(--color-primary);
 }
 
-.feedback {
-  margin-bottom: 1rem;
-  padding: 0.8rem;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  text-align: center;
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease;
-}
-
-.feedback.success {
-  background-color: var(--color-accent-light);
-  color: var(--color-active);
-  border: 1px solid var(--color-active);
-}
-
-.feedback.error {
-  background-color: #ffebee;
-  color: var(--color-danger);
-  border: 1px solid var(--color-danger);
-}
-
-.feedback:hover {
-  opacity: 0.9;
-  transform: scale(1.02);
-}
-
 .profile-image-container {
   position: relative;
   width: 120px;
@@ -182,10 +155,4 @@ form input:focus {
 
 .cancel-button:hover {
   background-color: var(--color-primary);
-}
-
-.loading {
-  text-align: center;
-  font-size: 1rem;
-  color: var(--color-text-secondary);
 }

@@ -1,58 +1,55 @@
 <div class="profile">
-    <!-- Feedback Message -->
-    @if (feedbackMessage) {
-    <div class="feedback" [ngClass]="feedbackType">
-        {{ feedbackMessage }}
-    </div>
-    }
-
+   
+  
     <h2>User Profile</h2>
-
+  
     <!-- Profile Image and Edit Icon -->
-
-
-    <!-- Profile Information and Buttons -->
-    @if (!editMode) {
-
     <div class="profile-image-container">
-        <img [src]="imagePreviewUrl || 'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg'"
-            alt="User's Profile Picture" class="profile-picture" />
-
-    </div>
-
-    <div class="profile-info">
-        <p><strong>Name:</strong> {{ farmer.username }}</p>
-        <p><strong>Email:</strong> {{ farmer.email }}</p>
-        <p><strong>Phone:</strong> {{ farmer.phoneNumber || 'Not specified' }}</p>
-        <button class="primary-button" (click)="toggleEditMode()">Edit Profile</button>
-    </div>
-    }
-
+        <img
+          [src]="tempImageUrl || farmer.imageUrl || 'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg'"
+          alt="User's Profile Picture"
+          class="profile-picture"
+        />
+        @if (editMode) {
+          <button type="button" class="edit-icon" aria-label="Edit Profile Picture" (click)="updateImage()">
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+        }
+      </div>
+  
+    <!-- Loading Indicator -->
+    @if (isLoading) {
+        <div class="loading-bar-container"><div class="loading-bar"></div></div>
+      }
+  
+    <!-- Profile Information -->
+    @if (!editMode) {
+        <div class="profile-info">
+          <p><strong>Name:</strong> {{ farmer.username }}</p>
+          <p><strong>Email:</strong> {{ farmer.email }}</p>
+          <p><strong>Phone:</strong> {{ farmer.phoneNumber || 'Not specified' }}</p>
+          <button class="primary-button" (click)="toggleEditMode()">Edit Profile</button>
+        </div>
+      }
+    
+  
     <!-- Edit Form -->
     @if (editMode) {
-
-    <div class="profile-image-container">
-        <img [src]="imagePreviewUrl || 'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg'"
-            alt="User's Profile Picture" class="profile-picture" />
-        <button type="button" class="edit-icon" aria-label="Edit Profile Picture" (click)="updateImage()">
-            <i class="fas fa-pencil-alt"></i>
-        </button>
-    </div>
-
-    <form class="profile-form" (ngSubmit)="updateFarmer()">
-        <label for="username">Name</label>
-        <input [(ngModel)]="farmer.username" name="username" id="username" type="text" required />
-
-        <label for="email">Email</label>
-        <input [(ngModel)]="farmer.email" name="email" id="email" type="email" required />
-
-        <label for="phoneNumber">Phone</label>
-        <input [(ngModel)]="farmer.phoneNumber" name="phoneNumber" id="phoneNumber" type="tel" />
-
-        <div class="form-buttons">
+        <form class="profile-form" (ngSubmit)="updateFarmer()">
+          <label for="username">Name</label>
+          <input [(ngModel)]="farmer.username" name="username" id="username" type="text" required />
+    
+          <label for="email">Email</label>
+          <input [(ngModel)]="farmer.email" name="email" id="email" type="email" required />
+    
+          <label for="phoneNumber">Phone</label>
+          <input [(ngModel)]="farmer.phoneNumber" name="phoneNumber" id="phoneNumber" type="tel" />
+    
+          <div class="form-buttons">
             <button type="submit" class="primary-button">Save Changes</button>
             <button type="button" class="cancel-button" (click)="toggleEditMode()">Cancel</button>
-        </div>
-    </form>
-    }
-</div>
+          </div>
+        </form>
+      }
+  </div>
+  

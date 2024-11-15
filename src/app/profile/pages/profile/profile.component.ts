@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../iam/services/authentication.service';
 import { FarmerService } from '../../services/farmer.service';
-import { Farmer } from '../../model/farmer';
+import { UserStateService } from '../../../shared/services/user-state.service';
+import { switchMap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserStateService } from '../../../shared/services/user-state.service';
+import { Farmer } from '../../model/farmer';
 
 @Component({
   selector: 'app-profile',
@@ -14,11 +15,11 @@ import { UserStateService } from '../../../shared/services/user-state.service';
   styleUrls: ['./profile.component.css'],
 })
 export default class ProfileComponent implements OnInit {
-  farmer!: Farmer;
-  imagePreviewUrl: string | ArrayBuffer | null = '';
+  farmer = new Farmer();
+  newImageFile: File | null = null;
+  tempImageUrl: string | ArrayBuffer | null = '';
+  isLoading = false;
   editMode = false;
-  feedbackMessage = '';
-  feedbackType: 'success' | 'error' = 'success';
 
   constructor(
     private farmerService: FarmerService,
@@ -27,98 +28,78 @@ export default class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authenticationService.currentUserId.subscribe((id: number) => {
-      if (id) {
-        this.loadFarmerDetails(id);
-      } else {
-        console.error('User ID not found');
-      }
-    });
+    this.authenticationService.currentUserId.subscribe((id) => id && this.loadFarmerDetails(id));
   }
 
   private loadFarmerDetails(id: number): void {
+    this.isLoading = true;
     this.farmerService.getById(id).subscribe({
       next: (data) => {
         this.farmer = data;
-        this.imagePreviewUrl = data.imageUrl;
-        this.userState.updateUser(
-          data.username,
-          data.imageUrl
-        );
+        this.userState.updateUser(data.username, data.imageUrl);
+        this.isLoading = false;
       },
       error: () => {
-        this.showFeedback('Error loading profile details.', 'error');
+         this.isLoading = false;
       },
     });
   }
 
   updateFarmer(): void {
-    this.farmerService.update(this.farmer.id, this.farmer).subscribe({
+    this.isLoading = true;
+    const updateObservable = this.newImageFile
+      ? this.uploadImageAndSaveProfile()
+      : this.farmerService.update(this.farmer.id, this.farmer);
+
+    updateObservable.subscribe({
       next: () => {
-        this.userState.updateUser(this.farmer.username, this.imagePreviewUrl as string);
+        this.userState.updateUser(this.farmer.username, this.farmer.imageUrl);
         this.editMode = false;
-        this.showFeedback('Profile information updated successfully!', 'success');
+        this.resetImageState();
+        this.isLoading = false;
       },
       error: () => {
-        this.showFeedback('Error updating profile information.', 'error');
+        this.isLoading = false;
       },
     });
+  }
+
+  private uploadImageAndSaveProfile() {
+    const formData = new FormData();
+    formData.append('file', this.newImageFile as File);
+    return this.farmerService.updateFarmerImage(this.farmer.id, formData).pipe(
+      switchMap((response) => {
+        this.farmer.imageUrl = response.imageUrl;
+        return this.farmerService.update(this.farmer.id, this.farmer);
+      })
+    );
   }
 
   updateImage(): void {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = 'image/*';
-
     fileInput.addEventListener('change', (event: any) => {
       const file = event.target.files[0];
       if (file) {
-        this.uploadImage(file);
+        this.newImageFile = file;
+        const reader = new FileReader();
+        reader.onload = () => (this.tempImageUrl = reader.result);
+        reader.readAsDataURL(file);
       }
     });
-
     fileInput.click();
-  }
-
-  private uploadImage(file: File): void {
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreviewUrl = reader.result;
-    };
-    reader.readAsDataURL(file);
-
-    this.farmerService.updateFarmerImage(this.farmer.id, file).subscribe({
-      next: () => {
-        this.userState.updateUser(this.farmer.username, this.imagePreviewUrl as string);
-        this.showFeedback('Profile image updated successfully!', 'success');
-      },
-      error: () => {
-        this.showFeedback('Error updating profile image.', 'error');
-      },
-    });
-  }
-
-  deleteImage(): void {
-    this.farmerService.deleteFarmerImage(this.farmer.id).subscribe({
-      next: () => {
-        this.imagePreviewUrl = '';
-        this.userState.updateUser(this.farmer.username, this.imagePreviewUrl as string);
-        this.showFeedback('Profile image deleted successfully!', 'success');
-      },
-      error: () => {
-        this.showFeedback('Error deleting profile image.', 'error');
-      },
-    });
   }
 
   toggleEditMode(): void {
     this.editMode = !this.editMode;
-    this.feedbackMessage = ''; // Clear feedback message when switching modes
+   
+    if (!this.editMode) this.resetImageState();
   }
 
-  private showFeedback(message: string, type: 'success' | 'error'): void {
-    this.feedbackMessage = message;
-    this.feedbackType = type;
-    setTimeout(() => (this.feedbackMessage = ''), 3000); // Auto-clear after 3 seconds
+  private resetImageState(): void {
+    this.tempImageUrl = '';
+    this.newImageFile = null;
   }
+
 }
