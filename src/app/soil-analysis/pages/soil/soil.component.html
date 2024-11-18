@@ -1,77 +1,114 @@
-<div class="soil-analysis-container">
-  <div class="crop-select-container">
-    <label for="cropSelect">Select a Crop:</label>
+<div class="soil-analysis-container" *ngIf="currentView === 'main'">
+  <h2>Soil and Weather Management</h2>
+
+  
+  <div class="crop-selector">
+    <label for="cropSelect">Select Crop:</label>
     <select
       id="cropSelect"
-      #cropSelect
-      (change)="onCropSelect(cropSelect.value)"
-      class="crop-select"
+      [(ngModel)]="selectedCropId"
+      class="dropdown"
+      (change)="loadSoilAndWeatherData()"
     >
-      @for (crop of crops; track crop.id) {
-        <option [value]="crop.id">
-          {{ crop.cropName }}
-        </option>
-      }
+      <option *ngFor="let crop of crops" [value]="crop.id">
+        {{ crop.cropName }}
+      </option>
     </select>
   </div>
 
-  @if (selectedSoilAnalysis) {
-    <div class="soil-analysis-details">
-      <div class="cards-container">
-        <div class="card">
-          <i class="fas fa-flask icon"></i>
-          <h3>pH Level</h3>
-          <p>{{ selectedSoilAnalysis.pHLevel }}</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-temperature-high icon"></i>
-          <h3>Temperature</h3>
-          <p>{{ selectedSoilAnalysis.temperature }} °C</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-tint icon"></i>
-          <h3>Moisture</h3>
-          <p>{{ selectedSoilAnalysis.moisture }} %</p>
-        </div>
-      </div>
+   
+   <div *ngIf="associatedDeviceCode" class="device-info">
+    <p><strong>Associated Device Code:</strong> {{ associatedDeviceCode }}</p>
+  </div>
 
-      <div class="nutrients-section">
-        <h3>Nutrient Levels</h3>
-        <div class="nutrient-details">
-          @for (nutrient of pieChartData; track nutrient.name) {
-            <div class="nutrient">
-              <p>
-                <strong>{{ nutrient.name }}</strong
-                >: {{ nutrient.value }} %
-              </p>
-            </div>
-          } @empty {
-            <div>No nutrient data available.</div>
-          }
-        </div>
-      </div>
+  
+  <button (click)="sendSoilAnalysisRequest()" class="btn-primary">
+    Request Soil Analysis
+  </button>
 
-      <p class="analysis-date">
-        <strong>Analysis Date:</strong> {{ selectedSoilAnalysis.analysisDate }}
-      </p>
+  
+  <p *ngIf="statusMessage" class="status-message">
+    {{ statusMessage }}
+  </p>
 
-      @if (pieChartData.length > 0) {
-        <div class="chart-container">
-          <div class="pie-chart-wrapper">
-            <apx-chart
-              [series]="chartOptions.series"
-              [chart]="chartOptions.chart"
-              [labels]="chartOptions.labels"
-              [responsive]="chartOptions.responsive"
-              [title]="chartOptions.title"
-            ></apx-chart>
-          </div>
-        </div>
-      }
+  
+  <div *ngIf="lastSoilAnalysis" class="analysis-section">
+    <h3>Last Soil Analysis</h3>
+    <p><strong>Nitrogen:</strong> {{ lastSoilAnalysis.nitrogen }}</p>
+    <p><strong>Phosphorus:</strong> {{ lastSoilAnalysis.phosphorus }}</p>
+    <p><strong>Potassium:</strong> {{ lastSoilAnalysis.potassium }}</p>
+    <div class="chart-container">
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [labels]="chartOptions.labels"
+        [responsive]="chartOptions.responsive"
+        [title]="chartOptions.title"
+      ></apx-chart>
     </div>
-  } @else {
-    <div class="no-selection">
-      <p>Please select a crop to see the soil analysis.</p>
-    </div>
-  }
+  </div>
+
+  
+  <div *ngIf="lastWeatherReport" class="weather-section">
+    <h3>Last Weather Report</h3>
+    <p><strong>Date:</strong> {{ lastWeatherReport.date | date }}</p>
+    <p><strong>Temperature:</strong> {{ lastWeatherReport.temperature }}°C</p>
+    <p><strong>Humidity:</strong> {{ lastWeatherReport.humidity }}%</p>
+  </div>
+
+  
+  <div class="history-buttons">
+    <button (click)="loadWeatherHistory()" class="btn-secondary">
+      View Weather History
+    </button>
+    <button (click)="loadSoilHistory()" class="btn-secondary">
+      View Soil History
+    </button>
+  </div>
+</div>
+
+
+<div class="weather-history" *ngIf="currentView === 'weather-history'">
+  <h2>Weather History</h2>
+  <button (click)="backToMainView()" class="btn-back">Back</button>
+  <table class="history-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Temperature (°C)</th>
+        <th>Humidity (%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let report of weatherReports">
+        <td>{{ report.date | date }}</td>
+        <td>{{ report.temperature }}</td>
+        <td>{{ report.humidity }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="soil-history" *ngIf="currentView === 'soil-history'">
+  <h2>Soil History</h2>
+  <button (click)="backToMainView()" class="btn-back">Back</button>
+  <table class="history-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Nitrogen</th>
+        <th>Phosphorus</th>
+        <th>Potassium</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let report of soilReports">
+        <td>{{ report.date | date }}</td>
+        <td>{{ report.nitrogen }}</td>
+        <td>{{ report.phosphorus }}</td>
+        <td>{{ report.potassium }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

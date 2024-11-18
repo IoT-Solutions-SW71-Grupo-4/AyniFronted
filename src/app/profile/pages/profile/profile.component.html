@@ -3,7 +3,7 @@
   
     <h2>User Profile</h2>
   
-    <!-- Profile Image and Edit Icon -->
+    
     <div class="profile-image-container">
         <img
           [src]="tempImageUrl || farmer.imageUrl || 'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg'"
@@ -17,12 +17,12 @@
         }
       </div>
   
-    <!-- Loading Indicator -->
+    
     @if (isLoading) {
         <div class="loading-bar-container"><div class="loading-bar"></div></div>
       }
   
-    <!-- Profile Information -->
+    
     @if (!editMode) {
         <div class="profile-info">
           <p><strong>Name:</strong> {{ farmer.username }}</p>
@@ -33,7 +33,7 @@
       }
     
   
-    <!-- Edit Form -->
+    
     @if (editMode) {
         <form class="profile-form" (ngSubmit)="updateFarmer()">
           <label for="username">Name</label>
