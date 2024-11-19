@@ -1,14 +1,14 @@
 <div class="soil-analysis-container" *ngIf="currentView === 'main'">
   <h2>Soil and Weather Management</h2>
 
-  
+  <!-- Crop Selector -->
   <div class="crop-selector">
     <label for="cropSelect">Select Crop:</label>
     <select
       id="cropSelect"
       [(ngModel)]="selectedCropId"
       class="dropdown"
-      (change)="loadSoilAndWeatherData()"
+      (change)="onCropChange()"
     >
       <option *ngFor="let crop of crops" [value]="crop.id">
         {{ crop.cropName }}
@@ -16,22 +16,31 @@
     </select>
   </div>
 
-   
-   <div *ngIf="associatedDeviceCode" class="device-info">
+  <!-- Associated Device Code -->
+  <div *ngIf="associatedDeviceCode; else noDevice" class="device-info">
     <p><strong>Associated Device Code:</strong> {{ associatedDeviceCode }}</p>
   </div>
+  <ng-template #noDevice>
+    <div class="device-info">
+      <p><strong>No devices associated with this crop.</strong></p>
+    </div>
+  </ng-template>
 
-  
-  <button (click)="sendSoilAnalysisRequest()" class="btn-primary">
+  <!-- Request Soil Analysis Button -->
+  <button
+    (click)="sendSoilAnalysisRequest()"
+    class="btn-primary"
+    [disabled]="!associatedDeviceCode"
+  >
     Request Soil Analysis
   </button>
 
-  
+  <!-- Status Message -->
   <p *ngIf="statusMessage" class="status-message">
     {{ statusMessage }}
   </p>
 
-  
+  <!-- Last Soil Analysis -->
   <div *ngIf="lastSoilAnalysis" class="analysis-section">
     <h3>Last Soil Analysis</h3>
     <p><strong>Nitrogen:</strong> {{ lastSoilAnalysis.nitrogen }}</p>
@@ -48,7 +57,7 @@
     </div>
   </div>
 
-  
+  <!-- Last Weather Report -->
   <div *ngIf="lastWeatherReport" class="weather-section">
     <h3>Last Weather Report</h3>
     <p><strong>Date:</strong> {{ lastWeatherReport.date | date }}</p>
@@ -56,7 +65,7 @@
     <p><strong>Humidity:</strong> {{ lastWeatherReport.humidity }}%</p>
   </div>
 
-  
+  <!-- History Buttons -->
   <div class="history-buttons">
     <button (click)="loadWeatherHistory()" class="btn-secondary">
       View Weather History
@@ -67,7 +76,7 @@
   </div>
 </div>
 
-
+<!-- Weather History View -->
 <div class="weather-history" *ngIf="currentView === 'weather-history'">
   <h2>Weather History</h2>
   <button (click)="backToMainView()" class="btn-back">Back</button>
@@ -89,7 +98,7 @@
   </table>
 </div>
 
-
+<!-- Soil History View -->
 <div class="soil-history" *ngIf="currentView === 'soil-history'">
   <h2>Soil History</h2>
   <button (click)="backToMainView()" class="btn-back">Back</button>
