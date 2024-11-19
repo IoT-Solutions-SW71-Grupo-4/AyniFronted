@@ -1,87 +1,43 @@
-<div class="container">
-  <h2 class="title">Irrigation Management</h2>
+<div class="irrigation-container">
+  <h2>Irrigation Management</h2>
 
-  <div class="form-group">
-    <label for="cropSelect" class="label">Selecciona un cultivo:</label>
-    <select id="cropSelect" class="form-control" [(ngModel)]="selectedCrop">
-      @for (crop of crops; track crop.id) {
-        <option [ngValue]="crop">{{ crop.cropName }}</option>
-      }
+  
+  <div class="crop-selector">
+    <label for="cropSelect">Select Crop:</label>
+    <select
+      id="cropSelect"
+      [(ngModel)]="selectedCropId"
+      class="dropdown"
+      (change)="loadSoilAndWeatherData()"
+    >
+      <option *ngFor="let crop of crops" [value]="crop.id">
+        {{ crop.cropName }}
+      </option>
     </select>
   </div>
 
-  <div class="nav-buttons">
-    <button
-      class="nav-btn"
-      (click)="toggleView()"
-      [class.active]="irrigationData.mode === 'manual'"
-    >
-      Manual Irrigation
-    </button>
-    <button
-      class="nav-btn"
-      (click)="toggleView()"
-      [class.active]="irrigationData.mode === 'automatic'"
-    >
-      Automatic Irrigation
-    </button>
+  
+  <div *ngIf="lastSoilAnalysis || lastWeatherReport" class="info-section">
+    <div *ngIf="lastSoilAnalysis" class="soil-info">
+      <h3>Soil Data</h3>
+      <p><strong>Temperature:</strong> {{ lastSoilAnalysis.temperature }}°C</p>
+      <p><strong>Humidity:</strong> {{ lastSoilAnalysis.humidity }}%</p>
+    </div>
+
+    <div *ngIf="lastWeatherReport" class="weather-info">
+      <h3>Weather Data</h3>
+      <p><strong>Temperature:</strong> {{ lastWeatherReport.temperature }}°C</p>
+      <p><strong>Humidity:</strong> {{ lastWeatherReport.humidity }}%</p>
+    </div>
   </div>
 
-  @if (irrigationData.mode === "manual" && selectedCrop) {
-    <div class="manual-irrigation">
-      <h3 class="section-title">Manual Irrigation</h3>
-      <input
-        type="number"
-        [(ngModel)]="manualDuration"
-        placeholder="Duration in minutes"
-        class="duration-input"
-      />
-      <div class="action-btn-group">
-        <button class="action-btn" (click)="startManualIrrigation()">
-          Start Manual Irrigation
-        </button>
-        <button class="action-btn" (click)="stopManualIrrigation()">
-          Stop Manual Irrigation
-        </button>
-      </div>
-    </div>
-  }
+  
+  <button (click)="irrigateCrop()" class="btn-primary">
+    Irrigate Crop
+  </button>
 
-  @if (irrigationData.mode === "automatic" && selectedCrop) {
-    <div class="automatic-irrigation">
-      <h3 class="section-title">Automatic Irrigation</h3>
-      <div class="checkbox-group">
-        <input
-          type="checkbox"
-          id="consent"
-          [(ngModel)]="irrigationData.consentGiven"
-        />
-        <label for="consent" class="checkbox-label"
-          >Consent for automatic irrigation</label
-        >
-      </div>
-
-      <div class="card">
-        <h4 class="card-title">Moisture Information</h4>
-        <p>
-          <strong>Current Moisture:</strong>
-          {{ irrigationData.currentSoilMoisture }}%
-        </p>
-        <p>
-          <strong>Moisture Threshold:</strong>
-          {{ irrigationData.sensorThreshold }}%
-        </p>
-      </div>
-
-      <button class="action-btn" (click)="scheduleAutomaticIrrigation()">
-        Schedule Automatic Irrigation
-      </button>
-    </div>
-  }
-
-  @if (feedbackMessage) {
-    <div class="feedback">
-      <p>{{ feedbackMessage }}</p>
-    </div>
-  }
+  
+  <p *ngIf="statusMessage" class="status-message">
+    {{ statusMessage }}
+  </p>
 </div>

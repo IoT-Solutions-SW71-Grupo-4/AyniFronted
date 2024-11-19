@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  serverBasePath: 'http://localhost:8080/api/v1',
+  serverBasePath: 'https://hidrobots-ayni.azurewebsites.net/api/v1',
 };
