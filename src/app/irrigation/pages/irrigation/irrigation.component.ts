@@ -1,82 +1,126 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CropService } from '../../../crops/services/crop.service';
-import { Crop } from '../../../crops/model/crop';
-import { Irrigation } from '../../model/irrigation';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { CropService } from '../../../crops/services/crop.service';
+import { IrrigationService } from '../../services/irrigation.service';
+import { Crop } from '../../../crops/model/crop';
+import { Analysis } from '../../../soil-analysis/model/soil';
+import { Weather } from '../../../soil-analysis/model/weather';
+import { SoilService } from '../../../soil-analysis/services/soil.service';
+import { WeatherService } from '../../../soil-analysis/services/weather.service';
+
 
 @Component({
   selector: 'app-irrigation',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './irrigation.component.html',
-  styleUrl: './irrigation.component.css',
+  styleUrls: ['./irrigation.component.css'],
 })
 export default class IrrigationComponent implements OnInit {
   crops: Crop[] = [];
-  selectedCrop: Crop | null = null;
-  irrigationData: Irrigation = new Irrigation();
-  manualDuration: number = 0;
-  feedbackMessage: string = '';
+  selectedCropId: number | null = null;
 
-  constructor(private cropService: CropService) {}
+  
+  lastSoilAnalysis: Analysis | null = null;
+  lastWeatherReport: Weather | null = null;
+
+  
+  irrigationStatus: boolean | null = null;
+  statusMessage: string | null = null;
+
+  constructor(
+    private cropService: CropService,
+    private irrigationService: IrrigationService,
+    private soilService: SoilService,
+    private weatherService: WeatherService
+  ) {}
 
   ngOnInit(): void {
     this.loadCrops();
   }
 
+  /**
+   * Cargar la lista de cultivos.
+   */
   loadCrops(): void {
     this.cropService.getCropsByFarmer().subscribe({
-      next: (cropsData: Crop[]) => {
+      next: (cropsData) => {
         this.crops = cropsData;
         if (this.crops.length > 0) {
-          this.selectedCrop = this.crops[0];
+          this.selectedCropId = this.crops[0].id;
+          this.loadSoilAndWeatherData();
         }
       },
-      error: (err) => console.error('Error al cargar los cultivos:', err),
+      error: (error) => {
+        console.error('Error loading crops:', error);
+        this.statusMessage = 'Failed to load crops.';
+      },
     });
   }
 
-  startManualIrrigation(): void {
-    if (this.selectedCrop && this.irrigationData.mode !== 'automatic') {
-      this.irrigationData.mode = 'manual';
-      this.irrigationData.isCurrentlyIrrigating = true;
-      this.irrigationData.automaticIrrigationEnabled = false;
-      this.irrigationData.duration = this.manualDuration;
-      this.feedbackMessage = `Manual irrigation started for ${this.manualDuration} minutes.`;
-    } else if (this.irrigationData.mode === 'automatic') {
-      this.feedbackMessage =
-        'Error: Cannot start manual irrigation while automatic irrigation is enabled.';
-    }
-  }
-
-  stopManualIrrigation(): void {
-    this.irrigationData.isCurrentlyIrrigating = false;
-    this.feedbackMessage = 'Manual irrigation stopped.';
-  }
-
-  scheduleAutomaticIrrigation(): void {
-    if (!this.irrigationData.consentGiven) {
-      this.feedbackMessage =
-        'Error: Consent not given for automatic irrigation.';
+  /**
+   * Cargar datos de suelo y clima para el cultivo seleccionado.
+   */
+  loadSoilAndWeatherData(): void {
+    if (!this.selectedCropId) {
+      this.statusMessage = 'Please select a crop.';
       return;
     }
-    if (this.irrigationData.mode !== 'manual') {
-      this.irrigationData.mode = 'automatic';
-      this.irrigationData.isCurrentlyIrrigating = false;
-      this.irrigationData.automaticIrrigationEnabled = true;
-      this.feedbackMessage = 'Automatic irrigation scheduled.';
-    } else {
-      this.feedbackMessage =
-        'Error: Cannot enable automatic irrigation while manual irrigation is active.';
-    }
+
+    
+    this.soilService.getLastSoilReportByCrop(this.selectedCropId).subscribe({
+      next: (analysis) => {
+        this.lastSoilAnalysis = analysis;
+      },
+      error: (error) => {
+        console.error('Error fetching soil report:', error);
+        this.statusMessage = 'Failed to fetch soil report.';
+      },
+    });
+
+    
+    this.weatherService.getLastWeatherReportByCrop(this.selectedCropId).subscribe({
+      next: (report) => {
+        this.lastWeatherReport = report;
+      },
+      error: (error) => {
+        console.error('Error fetching weather report:', error);
+        this.statusMessage = 'Failed to fetch weather report.';
+      },
+    });
   }
 
-  toggleView(): void {
-    this.irrigationData.mode =
-      this.irrigationData.mode === 'manual' ? 'automatic' : 'manual';
-    this.irrigationData.isCurrentlyIrrigating = false;
-    this.irrigationData.automaticIrrigationEnabled = false;
-    this.feedbackMessage = '';
+  /**
+   * Cambiar el estado de riego del cultivo seleccionado.
+   */
+  irrigateCrop(): void {
+    if (!this.selectedCropId) {
+      this.statusMessage = 'Please select a crop.';
+      return;
+    }
+
+    this.irrigationService
+      .irrigateCrop(this.selectedCropId, true)
+      .subscribe({
+        next: (response) => {
+          this.showTemporaryMessage(response);
+        },
+        error: (error) => {
+          console.error('Error updating irrigation status:', error);
+          this.showTemporaryMessage('Failed to update irrigation status.');
+        },
+      });
+  }
+
+  /**
+   * Mostrar un mensaje temporal debajo del botón.
+   */
+  showTemporaryMessage(message: string): void {
+    this.statusMessage = message;
+    setTimeout(() => {
+      this.statusMessage = null;
+    }, 5000); 
   }
 }

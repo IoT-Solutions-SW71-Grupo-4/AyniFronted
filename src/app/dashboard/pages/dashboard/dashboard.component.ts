@@ -1,9 +1,12 @@
-import { Component, signal, effect, OnInit } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { Crop } from '../../../crops/model/crop';
 import { CropService } from '../../../crops/services/crop.service';
+
 import { CommonModule } from '@angular/common';
 import CropComponent from '../../../crops/component/crop-card/crop-card.component';
 import { RouterLink } from '@angular/router';
+import { Weather } from '../../../soil-analysis/model/weather';
+import { WeatherService } from '../../../soil-analysis/services/weather.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,14 +20,6 @@ export default class DashboardComponent implements OnInit {
   selectedCrop = signal<Crop | null>(null);
   currentDate = new Date();
 
-  currentMetrics = signal<
-    { description: string; value: number | string; unit: string }[]
-  >([
-    { description: 'Temperature', value: 22, unit: '°' },
-    { description: 'Soil Moisture', value: 65, unit: '%' },
-    { description: 'Soil Temperature', value: 18, unit: '°C' },
-    { description: 'PH Level', value: 6.5, unit: '' },
-  ]);
 
   deviceStatuses = signal<
     { status: string; label: string; count: number; indicatorClass: string }[]
@@ -49,39 +44,38 @@ export default class DashboardComponent implements OnInit {
     },
   ]);
 
-  alerts = signal<string[]>([
-    'Alerta: Alta Temperatura',
-    'Alerta: Humedad Baja',
-    'Alerta: Nivel de pH fuera de rango',
-  ]);
+  
+  currentMetrics = signal<
+    { description: string; value: number | string; unit: string }[]
+  >([]);
 
-  devicesStatus = signal<{
-    connected: number;
-    disconnected: number;
-    failure: number;
-  }>({
-    connected: 4,
-    disconnected: 2,
-    failure: 1,
-  });
-
-  constructor(private cropService: CropService) {}
+  constructor(
+    private cropService: CropService,
+    private weatherService: WeatherService
+  ) {}
 
   ngOnInit(): void {
     this.loadCrops();
   }
 
+  /**
+   * Cargar la lista de cultivos.
+   */
   loadCrops(): void {
     this.cropService.getCropsByFarmer().subscribe((cropsData: Crop[]) => {
       this.crops.set(cropsData);
       if (cropsData.length > 0) {
-        this.selectedCrop.set(cropsData[0]);
+        this.selectCrop(cropsData[0]); 
       }
     });
   }
 
+  /**
+   * Manejar la selección de un cultivo.
+   */
   selectCrop(crop: Crop): void {
-    this.selectedCrop.set(crop);
+    this.selectedCrop.set(crop); 
+    this.loadWeatherData(crop.id); 
   }
 
   deleteCrop(cropId: number): void {
@@ -111,11 +105,22 @@ export default class DashboardComponent implements OnInit {
     }
   }
 
-  getCropAge(plantingDate: Date): string {
-    const ageInDays = Math.floor(
-      (this.currentDate.getTime() - new Date(plantingDate).getTime()) /
-        (1000 * 3600 * 24),
-    );
-    return `${ageInDays} days`;
+
+  /**
+   * Cargar los datos del clima para el cultivo seleccionado.
+   */
+  loadWeatherData(cropId: number): void {
+    this.weatherService.getLastWeatherReportByCrop(cropId).subscribe({
+      next: (weather: Weather) => {
+        this.currentMetrics.set([
+          { description: 'Soil Temperature', value: weather.temperature, unit: '°C' },
+          { description: 'Soil Moisture', value: weather.humidity, unit: '%' },
+        ]);
+      },
+      error: (error) => {
+        console.error('Error loading weather data:', error);
+        this.currentMetrics.set([]);
+      },
+    });
   }
 }

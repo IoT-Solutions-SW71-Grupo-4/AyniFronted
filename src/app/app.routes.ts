@@ -24,12 +24,7 @@ export const routes: Routes = [
           import('./devices/pages/devices/devices.component'),
         canActivate: [authenticationGuard],
       },
-      {
-        path: 'add-device',
-        loadComponent: () =>
-          import('./devices/components/add-device/add-device.component'),
-        canActivate: [authenticationGuard],
-      },
+      
       {
         path: 'irrigation',
         loadComponent: () =>

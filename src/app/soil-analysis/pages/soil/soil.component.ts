@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Crop } from '../../../crops/model/crop';
-import { Analysis } from '../../model/soil';
-import { CropService } from '../../../crops/services/crop.service';
+import { FormsModule } from '@angular/forms';
 import {
   ApexChart,
   ApexNonAxisChartSeries,
@@ -10,6 +8,14 @@ import {
   ApexTitleSubtitle,
   NgApexchartsModule,
 } from 'ng-apexcharts';
+
+import { Crop } from '../../../crops/model/crop';
+import { Analysis } from '../../model/soil';
+import { Weather } from '../../model/weather';
+import { CropService } from '../../../crops/services/crop.service';
+import { SoilService } from '../../services/soil.service';
+import { WeatherService } from '../../services/weather.service';
+import { DeviceService } from '../../../devices/services/device.service';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -22,120 +28,211 @@ export type ChartOptions = {
 @Component({
   selector: 'app-soil',
   standalone: true,
-  imports: [CommonModule, NgApexchartsModule],
+  imports: [CommonModule, NgApexchartsModule, FormsModule],
   templateUrl: './soil.component.html',
-  styleUrl: './soil.component.css',
+  styleUrls: ['./soil.component.css'],
 })
 export default class SoilComponent implements OnInit {
   crops: Crop[] = [];
   selectedCropId: number | null = null;
-  selectedSoilAnalysis: Analysis | null = null;
-  selectedCropName: string | null = null;
-  public pieChartData: { name: string; value: number }[] = [];
 
-  public chartOptions: Partial<ChartOptions> | any;
+  
+  chartOptions: Partial<ChartOptions>;
+  lastSoilAnalysis: Analysis | null = null;
+  associatedDeviceCode: string | null = null;
 
-  private soilAnalyses: Analysis[] = [
-    {
-      id: 1,
-      cropId: 1,
-      deviceId: 101,
-      analysisDate: '2023-10-25',
-      pHLevel: 6.5,
-      temperature: 22,
-      moisture: 30,
-      nitrogen: 10,
-      phosphorus: 15,
-      potassium: 8,
-    },
-    {
-      id: 2,
-      cropId: 2,
-      deviceId: 102,
-      analysisDate: '2023-10-26',
-      pHLevel: 6.8,
-      temperature: 24,
-      moisture: 28,
-      nitrogen: 12,
-      phosphorus: 10,
-      potassium: 9,
-    },
-    {
-      id: 3,
-      cropId: 3,
-      deviceId: 103,
-      analysisDate: '2023-10-27',
-      pHLevel: 6.4,
-      temperature: 21,
-      moisture: 32,
-      nitrogen: 14,
-      phosphorus: 20,
-      potassium: 11,
-    },
-  ];
+  
+  lastWeatherReport: Weather | null = null;
 
-  constructor(private cropService: CropService) {}
+  
+  currentView: 'main' | 'weather-history' | 'soil-history' = 'main';
+
+  
+  weatherReports: Weather[] = [];
+  soilReports: Analysis[] = [];
+
+  
+  statusMessage: string | null = null;
+
+  constructor(
+    private cropService: CropService,
+    private soilService: SoilService,
+    private weatherService: WeatherService,
+    private deviceService: DeviceService
+  ) {
+    this.chartOptions = {
+      series: [],
+      chart: {
+        type: 'pie',
+        height: 350,
+      },
+      labels: ['Nitrogen', 'Phosphorus', 'Potassium'],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 300,
+            },
+            legend: {
+              position: 'bottom',
+            },
+          },
+        },
+      ],
+      title: {
+        text: 'Soil Nutrient Composition',
+        align: 'center',
+      },
+    };
+  }
 
   ngOnInit(): void {
     this.loadCrops();
   }
 
+  /**
+   * Cargar los cultivos disponibles.
+   */
   loadCrops(): void {
     this.cropService.getCropsByFarmer().subscribe({
-      next: (cropsData: Crop[]) => {
+      next: (cropsData) => {
         this.crops = cropsData;
-
         if (this.crops.length > 0) {
           this.selectedCropId = this.crops[0].id;
-          this.onCropSelect(this.selectedCropId.toString());
+          this.loadSoilAndWeatherData();
         }
       },
-      error: (err) => console.error('Error al cargar los cultivos:', err),
+      error: (error) => {
+        console.error('Error loading crops:', error);
+        this.statusMessage = 'Failed to load crops.';
+      },
+    });
+  }
+  loadSoilAndWeatherData(): void {
+    if (!this.selectedCropId) {
+      this.statusMessage = 'Please select a crop.';
+      return;
+    }
+
+    
+    this.soilService.getLastSoilReportByCrop(this.selectedCropId).subscribe({
+      next: (analysis) => {
+        this.lastSoilAnalysis = analysis;
+        if (analysis.deviceId) {
+          this.loadDeviceCode(analysis.deviceId);
+        }
+        this.chartOptions.series = [
+          analysis.nitrogen,
+          analysis.phosphorus,
+          analysis.potassium,
+        ];
+      },
+      error: (error) => {
+        console.error('Error fetching last soil report:', error);
+        this.statusMessage = 'Failed to fetch soil report.';
+      },
+    });
+
+    
+    this.weatherService.getLastWeatherReportByCrop(this.selectedCropId).subscribe({
+      next: (lastReport) => {
+        this.lastWeatherReport = lastReport;
+      },
+      error: (error) => {
+        console.error('Error fetching last weather report:', error);
+        this.statusMessage = 'Failed to fetch weather report.';
+      },
     });
   }
 
-  onCropSelect(cropId: string): void {
-    const selectedId = Number(cropId);
-
-    if (!isNaN(selectedId)) {
-      this.selectedSoilAnalysis =
-        this.soilAnalyses.find((analysis) => analysis.cropId === selectedId) ||
-        null;
-      const selectedCrop = this.crops.find((crop) => crop.id === selectedId);
-      this.selectedCropName = selectedCrop ? selectedCrop.cropName : null;
-
-      if (this.selectedSoilAnalysis) {
-        this.updateChartData();
-      }
-    }
+  loadDeviceCode(deviceId: number): void {
+    this.deviceService.getById(deviceId).subscribe({
+      next: (device) => {
+        this.associatedDeviceCode = device.deviceCode;
+      },
+      error: (error) => {
+        console.error('Error fetching device code:', error);
+        this.statusMessage = 'Failed to fetch device code.';
+      },
+    });
   }
 
-  private updateChartData(): void {
-    if (this.selectedSoilAnalysis) {
-      this.pieChartData = [
-        { name: 'Nitrogen', value: this.selectedSoilAnalysis.nitrogen },
-        { name: 'Phosphorus', value: this.selectedSoilAnalysis.phosphorus },
-        { name: 'Potassium', value: this.selectedSoilAnalysis.potassium },
-      ];
 
-      this.chartOptions = {
-        series: this.pieChartData.map((data) => data.value),
-        chart: {
-          type: 'pie',
-          width: 400,
-        },
-        labels: this.pieChartData.map((data) => data.name),
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: { width: 300 },
-              legend: { position: 'bottom' },
-            },
-          },
-        ],
-        title: { text: 'Nutrient Levels' },
-      };
+  /**
+   * Enviar solicitud de análisis de suelo.
+   */
+  sendSoilAnalysisRequest(): void {
+    if (!this.associatedDeviceCode) {
+      this.statusMessage = 'No associated device code found.';
+      return;
     }
+
+    this.soilService.requestSoilAnalysis(this.associatedDeviceCode).subscribe({
+      next: (response) => {
+        this.showTemporaryMessage(response);
+        this.loadSoilAndWeatherData(); 
+      },
+      error: (error) => {
+        console.error('Error sending soil analysis request:', error);
+        this.showTemporaryMessage('Failed to send soil analysis request.');
+      },
+    });
+  }
+
+  /**
+   * Cargar el historial de reportes climáticos.
+   */
+  loadWeatherHistory(): void {
+    if (!this.selectedCropId) {
+      this.statusMessage = 'Please select a crop.';
+      return;
+    }
+
+    this.weatherService.getWeatherReportsByCrop(this.selectedCropId).subscribe({
+      next: (reports) => {
+        this.weatherReports = reports;
+        this.currentView = 'weather-history';
+      },
+      error: (error) => {
+        console.error('Error fetching weather history:', error);
+        this.statusMessage = 'Failed to fetch weather history.';
+      },
+    });
+  }
+
+  /**
+   * Cargar el historial de análisis de suelo.
+   */
+  loadSoilHistory(): void {
+    if (!this.selectedCropId) {
+      this.statusMessage = 'Please select a crop.';
+      return;
+    }
+
+    this.soilService.getSoilReportsByCrop(this.selectedCropId).subscribe({
+      next: (reports) => {
+        this.soilReports = reports;
+        this.currentView = 'soil-history';
+      },
+      error: (error) => {
+        console.error('Error fetching soil history:', error);
+        this.statusMessage = 'Failed to fetch soil history.';
+      },
+    });
+  }
+
+  /**
+   * Regresar a la vista principal.
+   */
+  backToMainView(): void {
+    this.currentView = 'main';
+  }
+
+  showTemporaryMessage(message: string): void {
+    this.statusMessage = message;
+    setTimeout(() => {
+      this.statusMessage = null;
+    }, 5000); 
   }
 }

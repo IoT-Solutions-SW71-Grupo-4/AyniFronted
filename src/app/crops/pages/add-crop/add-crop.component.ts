@@ -42,6 +42,8 @@ export default class AddCropComponent {
         new Blob([JSON.stringify(this.crop)], { type: 'application/json' }),
       );
       formData.append('file', this.selectedFile);
+
+      
       this.cropService.createWithFile(formData).subscribe(
         () => {
           console.log('Crop added:', this.crop);
