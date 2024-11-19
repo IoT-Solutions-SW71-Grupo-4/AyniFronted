@@ -26,6 +26,10 @@ export class DeviceService extends BaseService<Device> {
     return this.http.patch<Device>(`${this.resourcePath()}/${deviceCode}/connect/crops/${cropId}`, {}, this.httpOptions);
   }
 
+  getDevicesByCrop(cropId: number): Observable<Device[]> {
+    return this.http.get<Device[]>(`${this.resourcePath()}/crop/${cropId}`, this.httpOptions);
+  }
+
   getDevicesByFarmer(): Observable<Device[]> {
     return this.authenticationService.currentUserId.pipe(
       switchMap(userId => 
