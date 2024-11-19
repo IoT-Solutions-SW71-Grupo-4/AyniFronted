@@ -42,6 +42,21 @@ body {
   --text-primary: #263238;
   --text-secondary: #607d8b;
   --text-light: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --shadow: rgba(0, 0, 0, 0.2);
+  --text-primary: #333;
+  --text-secondary: #666;
+  --text-light: #fff;
+  --success-color: #4caf50;
+  --danger-color: #e57373;
+  --primary-gradient: linear-gradient(135deg, #4caf50, #81c784);
+  --secondary-gradient: linear-gradient(135deg, #388e3c, #66bb6a);
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-primary: #81c784;
+  --border-radius: 15px;
+  --padding: 20px;
+  --transition: all 0.3s ease;
 }
 
 .device-list::-webkit-scrollbar,
