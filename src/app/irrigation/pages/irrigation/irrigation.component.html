@@ -18,11 +18,7 @@
 
   
   <div *ngIf="lastSoilAnalysis || lastWeatherReport" class="info-section">
-    <div *ngIf="lastSoilAnalysis" class="soil-info">
-      <h3>Soil Data</h3>
-      <p><strong>Temperature:</strong> {{ lastSoilAnalysis.temperature }}°C</p>
-      <p><strong>Humidity:</strong> {{ lastSoilAnalysis.humidity }}%</p>
-    </div>
+  
 
     <div *ngIf="lastWeatherReport" class="weather-info">
       <h3>Weather Data</h3>
