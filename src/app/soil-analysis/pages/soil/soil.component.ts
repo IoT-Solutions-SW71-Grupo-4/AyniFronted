@@ -16,6 +16,7 @@ import { CropService } from '../../../crops/services/crop.service';
 import { SoilService } from '../../services/soil.service';
 import { WeatherService } from '../../services/weather.service';
 import { DeviceService } from '../../../devices/services/device.service';
+import { Device } from '../../../devices/models/device';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -33,25 +34,21 @@ export type ChartOptions = {
   styleUrls: ['./soil.component.css'],
 })
 export default class SoilComponent implements OnInit {
+  devices: Device[] = [];
   crops: Crop[] = [];
   selectedCropId: number | null = null;
 
-  
   chartOptions: Partial<ChartOptions>;
   lastSoilAnalysis: Analysis | null = null;
   associatedDeviceCode: string | null = null;
 
-  
   lastWeatherReport: Weather | null = null;
 
-  
   currentView: 'main' | 'weather-history' | 'soil-history' = 'main';
 
-  
   weatherReports: Weather[] = [];
   soilReports: Analysis[] = [];
 
-  
   statusMessage: string | null = null;
 
   constructor(
@@ -92,7 +89,7 @@ export default class SoilComponent implements OnInit {
   }
 
   /**
-   * Cargar los cultivos disponibles.
+   * Load crops and initialize the first crop's data.
    */
   loadCrops(): void {
     this.cropService.getCropsByFarmer().subscribe({
@@ -100,7 +97,7 @@ export default class SoilComponent implements OnInit {
         this.crops = cropsData;
         if (this.crops.length > 0) {
           this.selectedCropId = this.crops[0].id;
-          this.loadSoilAndWeatherData();
+          this.onCropChange(); // Load data for the first crop
         }
       },
       error: (error) => {
@@ -109,19 +106,59 @@ export default class SoilComponent implements OnInit {
       },
     });
   }
+
+  /**
+   * Called when the selected crop changes.
+   */
+  onCropChange(): void {
+    this.associatedDeviceCode = null;
+    this.lastSoilAnalysis = null;
+    this.lastWeatherReport = null;
+    this.statusMessage = null;
+    this.loadDevice();
+  }
+
+  /**
+   * Load the device associated with the selected crop.
+   */
+  loadDevice(): void {
+    if (!this.selectedCropId) {
+      this.statusMessage = 'Please select a crop.';
+      return;
+    }
+    this.deviceService.getDevicesByCrop(this.selectedCropId).subscribe({
+      next: (devices) => {
+        this.devices = devices;
+        if (this.devices.length > 0) {
+          // Assuming there is only one device per crop
+          const device = this.devices[0];
+          this.associatedDeviceCode = device.deviceCode;
+        } else {
+          this.associatedDeviceCode = null;
+          this.statusMessage = 'No devices associated with this crop.';
+        }
+        this.loadSoilAndWeatherData();
+      },
+      error: (error) => {
+        console.error('Error loading devices:', error);
+        this.statusMessage = 'Failed to load devices.';
+      },
+    });
+  }
+
+  /**
+   * Load soil and weather data for the selected crop.
+   */
   loadSoilAndWeatherData(): void {
     if (!this.selectedCropId) {
       this.statusMessage = 'Please select a crop.';
       return;
     }
 
-    
+    // Load soil data
     this.soilService.getLastSoilReportByCrop(this.selectedCropId).subscribe({
       next: (analysis) => {
         this.lastSoilAnalysis = analysis;
-        if (analysis.deviceId) {
-          this.loadDeviceCode(analysis.deviceId);
-        }
         this.chartOptions.series = [
           analysis.nitrogen,
           analysis.phosphorus,
@@ -134,33 +171,22 @@ export default class SoilComponent implements OnInit {
       },
     });
 
-    
-    this.weatherService.getLastWeatherReportByCrop(this.selectedCropId).subscribe({
-      next: (lastReport) => {
-        this.lastWeatherReport = lastReport;
-      },
-      error: (error) => {
-        console.error('Error fetching last weather report:', error);
-        this.statusMessage = 'Failed to fetch weather report.';
-      },
-    });
+    // Load weather data
+    this.weatherService
+      .getLastWeatherReportByCrop(this.selectedCropId)
+      .subscribe({
+        next: (lastReport) => {
+          this.lastWeatherReport = lastReport;
+        },
+        error: (error) => {
+          console.error('Error fetching last weather report:', error);
+          this.statusMessage = 'Failed to fetch weather report.';
+        },
+      });
   }
-
-  loadDeviceCode(deviceId: number): void {
-    this.deviceService.getById(deviceId).subscribe({
-      next: (device) => {
-        this.associatedDeviceCode = device.deviceCode;
-      },
-      error: (error) => {
-        console.error('Error fetching device code:', error);
-        this.statusMessage = 'Failed to fetch device code.';
-      },
-    });
-  }
-
 
   /**
-   * Enviar solicitud de análisis de suelo.
+   * Send soil analysis request for the associated device.
    */
   sendSoilAnalysisRequest(): void {
     if (!this.associatedDeviceCode) {
@@ -171,7 +197,7 @@ export default class SoilComponent implements OnInit {
     this.soilService.requestSoilAnalysis(this.associatedDeviceCode).subscribe({
       next: (response) => {
         this.showTemporaryMessage(response);
-        this.loadSoilAndWeatherData(); 
+        this.loadSoilAndWeatherData(); // Reload data after analysis request
       },
       error: (error) => {
         console.error('Error sending soil analysis request:', error);
@@ -181,7 +207,7 @@ export default class SoilComponent implements OnInit {
   }
 
   /**
-   * Cargar el historial de reportes climáticos.
+   * Load weather history for the selected crop.
    */
   loadWeatherHistory(): void {
     if (!this.selectedCropId) {
@@ -202,7 +228,7 @@ export default class SoilComponent implements OnInit {
   }
 
   /**
-   * Cargar el historial de análisis de suelo.
+   * Load soil history for the selected crop.
    */
   loadSoilHistory(): void {
     if (!this.selectedCropId) {
@@ -223,16 +249,19 @@ export default class SoilComponent implements OnInit {
   }
 
   /**
-   * Regresar a la vista principal.
+   * Return to the main view.
    */
   backToMainView(): void {
     this.currentView = 'main';
   }
 
+  /**
+   * Display a temporary status message.
+   */
   showTemporaryMessage(message: string): void {
     this.statusMessage = message;
     setTimeout(() => {
       this.statusMessage = null;
-    }, 5000); 
+    }, 5000);
   }
 }
